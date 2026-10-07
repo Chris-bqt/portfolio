@@ -27,7 +27,7 @@ Seul, en salle de formation. Un compte GitHub gratuit, le modèle de portfolio d
 - L'adresse publique du site.
 - Le dépôt et son historique des modifications.
 - Le score d'accessibilité relevé.
-- ![Vous avez ici la page d'accueil de mon portfolio]({{ "/images/preuve-site-portfolio.png" | relative_url }})
+- ![Vous avez ici la page d'accueil de mon portfolio en informatique]({{ "/images/preuve-site-portfolio.png" | relative_url }})
 
 ## Ce que j'en retiens
 
