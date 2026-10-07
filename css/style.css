@@ -9,9 +9,12 @@
   --fond: #fbfbf9;
   --trait: #d5dbe1;
   --doux: #5b6672;
+  --survol: #e8f2f7;
 }
 
-* { box-sizing: border-box; }
+* {
+  box-sizing: border-box;
+}
 
 html {
   scroll-behavior: smooth;
@@ -22,12 +25,12 @@ body {
   background: var(--fond);
   color: var(--encre);
   font: 17px/1.6 Georgia, "Times New Roman", serif;
-
-  /* Animation d'apparition */
   animation: apparition 0.8s ease-out both;
 }
 
-header, main, footer {
+header,
+main,
+footer {
   max-width: 46rem;
   margin: 0 auto;
   padding: 0 1rem;
@@ -40,7 +43,6 @@ header {
   justify-content: space-between;
   align-items: baseline;
   gap: .5rem 1.5rem;
-
   animation: descente 0.7s ease-out both;
 }
 
@@ -71,10 +73,19 @@ nav ul {
 
 nav a {
   position: relative;
+  color: var(--encre);
   text-decoration: none;
+  transition:
+    color .25s ease,
+    background-color .25s ease;
 }
 
-/* Soulignement animé des liens */
+/* Changement de couleur des liens */
+nav a:hover {
+  color: var(--accent);
+}
+
+/* Soulignement animé */
 nav a::after {
   content: "";
   position: absolute;
@@ -94,7 +105,16 @@ nav a:focus-visible::after {
   transform-origin: left;
 }
 
-h1, h2, h3 {
+/* Couleur lorsque le lien reçoit le focus */
+nav a:focus-visible {
+  color: var(--accent);
+  outline: 3px solid var(--accent);
+  outline-offset: 4px;
+}
+
+h1,
+h2,
+h3 {
   font-family: Calibri, Arial, sans-serif;
   line-height: 1.25;
 }
@@ -150,7 +170,10 @@ a:focus-visible {
   font-size: .85rem;
 }
 
-/* Cartes avec effet de survol */
+/* =========================
+   CARTES
+   ========================= */
+
 .carte {
   border: 1px solid var(--trait);
   background: #fff;
@@ -177,7 +200,7 @@ a:focus-visible {
   margin: .2rem 0;
 }
 
-/* Apparition légèrement décalée des cartes */
+/* Apparition progressive des cartes */
 .carte:nth-child(1) {
   animation: apparition .6s ease-out .1s both;
 }
@@ -189,6 +212,10 @@ a:focus-visible {
 .carte:nth-child(3) {
   animation: apparition .6s ease-out .3s both;
 }
+
+/* =========================
+   COMPÉTENCES
+   ========================= */
 
 .comp-liste {
   font-size: .9rem;
@@ -215,21 +242,36 @@ a:focus-visible {
   color: #fff;
 }
 
+/* =========================
+   TABLEAU
+   ========================= */
+
 .defile {
   overflow-x: auto;
+  padding: 4px;
 }
 
+/* Les traits sont conservés sur toutes les cases */
 table {
   border-collapse: collapse;
+  border: 1px solid var(--trait);
   width: 100%;
   font-size: .9rem;
 }
 
-th, td {
+th,
+td {
   border: 1px solid var(--trait);
-  padding: .4rem .55rem;
+  padding: .5rem .6rem;
   text-align: left;
   vertical-align: top;
+
+  /* Animation des cases */
+  transition:
+    transform .2s ease,
+    background-color .2s ease,
+    border-color .2s ease,
+    box-shadow .2s ease;
 }
 
 th {
@@ -237,20 +279,41 @@ th {
   font-family: Calibri, Arial, sans-serif;
 }
 
+/* Les cases se soulèvent */
+tbody td:hover {
+  transform: translateY(-4px);
+  background: var(--survol);
+  border-color: var(--accent);
+  box-shadow: 0 5px 10px rgba(29, 38, 48, .12);
+}
+
+/* Les lignes restent également légèrement réactives */
+tbody tr {
+  transition: background-color .2s ease;
+}
+
+tbody tr:hover {
+  background: rgba(232, 242, 247, .35);
+}
+
+/* Cases centrées */
 td.case {
   text-align: center;
   font-weight: bold;
   min-width: 2.4rem;
 }
 
-/* Petit effet sur les lignes du tableau */
-tbody tr {
-  transition: background-color .2s ease;
+/* Effet accentué pour les cases "case" */
+td.case:hover {
+  background: var(--accent);
+  color: #fff;
+  border-color: var(--accent);
+  transform: translateY(-5px);
 }
 
-tbody tr:hover {
-  background: #f1f5f7;
-}
+/* =========================
+   IMAGES
+   ========================= */
 
 img {
   max-width: 100%;
@@ -267,11 +330,19 @@ img:hover {
   box-shadow: 0 8px 20px rgba(29, 38, 48, .12);
 }
 
+/* =========================
+   CODE
+   ========================= */
+
 code {
   font-size: .9em;
   background: #eef2f5;
   padding: 0 .25rem;
 }
+
+/* =========================
+   FOOTER
+   ========================= */
 
 footer {
   margin-top: 3rem;
@@ -331,14 +402,18 @@ footer {
   h1 {
     font-size: 1.6rem;
   }
+
+  /* Évite un déplacement trop important
+     sur les petits écrans */
+  tbody td:hover {
+    transform: translateY(-2px);
+  }
 }
 
 /* =========================
    ACCESSIBILITÉ
    ========================= */
 
-/* Respecte les préférences des personnes
-   qui demandent moins d'animations. */
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,
