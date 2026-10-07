@@ -21,7 +21,7 @@ Le matériel, les logiciels, seul ou en équipe.
 
 ## Productions et preuves
 
-![Ce que montre la capture]({{ "/images/exemple.png" | relative_url }})
+![Vous avez ici les dossiers que j'ai fait afin de créer mon portfolio]({{ "/images/preuve-portfolio.png" | relative_url }})
 
 ## Ce que j'en retiens
 
