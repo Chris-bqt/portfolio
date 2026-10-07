@@ -120,7 +120,6 @@ nav ul {
    8. TITRES
    ========================================================= */
 
-/* Police commune aux titres */
 h1,
 h2,
 h3 {
@@ -128,40 +127,80 @@ h3 {
   line-height: 1.25;
 }
 
-
-/* Grand titre principal */
 h1 {
   font-size: 2rem;
   margin: 2rem 0 0;
 }
 
-
-/* Titres de sections */
 h2 {
   font-size: 1.35rem;
   margin-top: 2.2rem;
-
-  /* Ligne sous le titre */
   border-bottom: 1px solid var(--trait);
-
   padding-bottom: .3rem;
 }
 
 
 /* =========================================================
-   9. LIENS
+   9. LIENS + ANIMATION
    ========================================================= */
 
-/* Couleur de tous les liens */
 a {
   color: var(--accent);
+  text-decoration: none;
+
+  /* Animation du changement de couleur */
+  transition: color 0.3s ease;
+}
+
+/* Couleur quand la souris passe dessus */
+a:hover {
+  color: #073f60;
 }
 
 
-/* Apparence du lien lorsqu'on navigue au clavier */
+/* ---------------------------------------------------------
+   Animation du soulignement pour les liens du menu
+   --------------------------------------------------------- */
+
+nav a {
+  position: relative;
+}
+
+/* Ligne invisible sous le lien */
+nav a::after {
+  content: "";
+  position: absolute;
+
+  left: 0;
+  bottom: -4px;
+
+  width: 100%;
+  height: 2px;
+
+  background: var(--accent);
+
+  /* La ligne est cachée au départ */
+  transform: scaleX(0);
+  transform-origin: right;
+
+  /* Animation */
+  transition: transform 0.3s ease;
+}
+
+/* La ligne apparaît au survol */
+nav a:hover::after {
+  transform: scaleX(1);
+  transform-origin: left;
+}
+
+
+/* ---------------------------------------------------------
+   Focus clavier
+   --------------------------------------------------------- */
+
 a:focus-visible {
   outline: 3px solid var(--accent);
-  outline-offset: 2px;
+  outline-offset: 3px;
 }
 
 
