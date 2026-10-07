@@ -1,354 +1,45 @@
-```css
-/* =========================================================
-   1. COULEURS DU SITE
-   ---------------------------------------------------------
-   Modifie ces couleurs pour changer l'apparence générale
-   du portfolio.
-   ========================================================= */
-
+/* Mise en forme du portfolio. Changez la couleur --accent pour donner
+   votre teinte au site ; le reste suit. */
 :root {
-  --encre: #1d2630;   /* Couleur principale du texte */
-  --accent: #0a5c8c;  /* Couleur des liens et éléments importants */
-  --fond: #fbfbf9;    /* Couleur de fond de la page */
-  --trait: #d5dbe1;   /* Couleur des bordures et séparations */
-  --doux: #5b6672;    /* Couleur du texte secondaire */
+  --encre: #1d2630;
+  --accent: #0a5c8c;
+  --fond: #fbfbf9;
+  --trait: #d5dbe1;
+  --doux: #5b6672;
 }
-
-
-/* =========================================================
-   2. RÈGLE GÉNÉRALE
-   ========================================================= */
-
-/* Empêche les éléments de dépasser leur largeur prévue */
-* {
-  box-sizing: border-box;
-}
-
-
-/* =========================================================
-   3. PAGE ENTIÈRE
-   ========================================================= */
-
+* { box-sizing: border-box; }
 body {
-  margin: 0;                 /* Supprime la marge par défaut */
-  background: var(--fond);   /* Couleur de fond */
-  color: var(--encre);       /* Couleur principale du texte */
-
-  /* Police du texte normal */
+  margin: 0;
+  background: var(--fond);
+  color: var(--encre);
   font: 17px/1.6 Georgia, "Times New Roman", serif;
 }
-
-
-/* =========================================================
-   4. LARGEUR PRINCIPALE DU SITE
-   ---------------------------------------------------------
-   header = haut de page
-   main   = contenu principal
-   footer = bas de page
-   ========================================================= */
-
-header,
-main,
-footer {
-  max-width: 46rem;          /* Largeur maximale du contenu */
-  margin: 0 auto;             /* Centre le contenu */
-  padding: 0 1rem;            /* Espace à gauche et à droite */
-}
-
-
-/* =========================================================
-   5. EN-TÊTE / HEADER
-   ========================================================= */
-
-header {
-  padding-top: 1.6rem;
-
-  /* Permet de placer le nom et le menu sur une même ligne */
-  display: flex;
-
-  /* Autorise le menu à passer à la ligne sur petit écran */
-  flex-wrap: wrap;
-
-  /* Espace entre les éléments */
-  justify-content: space-between;
-  align-items: baseline;
-  gap: .5rem 1.5rem;
-}
-
-
-/* =========================================================
-   6. NOM / TITRE DU SITE
-   ========================================================= */
-
-.site {
-  margin: 0;
-
-  /* Police du nom du site */
-  font: bold 1.05rem Calibri, Arial, sans-serif;
-}
-
-.site a {
-  color: var(--encre);
-  text-decoration: none; /* Supprime le soulignement */
-}
-
-
-/* =========================================================
-   7. MENU DE NAVIGATION
-   ========================================================= */
-
-nav ul {
-  list-style: none;       /* Supprime les puces */
-  padding: 0;
-  margin: 0;
-
-  /* Place les liens les uns à côté des autres */
-  display: flex;
-
-  /* Permet au menu de passer à la ligne */
-  flex-wrap: wrap;
-
-  /* Espace entre les liens */
-  gap: .3rem 1.2rem;
-
-  /* Police du menu */
-  font-family: Calibri, Arial, sans-serif;
-}
-
-
-/* =========================================================
-   8. TITRES
-   ========================================================= */
-
-/* Police commune aux titres */
-h1,
-h2,
-h3 {
-  font-family: Calibri, Arial, sans-serif;
-  line-height: 1.25;
-}
-
-
-/* Grand titre principal */
-h1 {
-  font-size: 2rem;
-  margin: 2rem 0 0;
-}
-
-
-/* Titres de sections */
-h2 {
-  font-size: 1.35rem;
-  margin-top: 2.2rem;
-
-  /* Ligne sous le titre */
-  border-bottom: 1px solid var(--trait);
-
-  padding-bottom: .3rem;
-}
-
-
-/* =========================================================
-   9. LIENS
-   ========================================================= */
-
-/* Couleur de tous les liens */
-a {
-  color: var(--accent);
-}
-
-
-/* Apparence du lien lorsqu'on navigue au clavier */
-a:focus-visible {
-  outline: 3px solid var(--accent);
-  outline-offset: 2px;
-}
-
-
-/* =========================================================
-   10. SOUS-TITRES ET INFORMATIONS SECONDAIRES
-   ========================================================= */
-
-.sous-titre,
-.meta {
-  color: var(--doux);
-  margin: .3rem 0 0;
-}
-
-
-/* Texte "meta" plus petit */
-.meta {
-  font-size: .85rem;
-}
-
-
-/* =========================================================
-   11. CARTES
-   ---------------------------------------------------------
-   .carte correspond aux blocs encadrés du portfolio.
-   ========================================================= */
-
-.carte {
-  border: 1px solid var(--trait); /* Bordure */
-  background: #fff;               /* Fond blanc */
-
-  /* Espace intérieur */
-  padding: .8rem 1rem;
-
-  /* Espace extérieur */
-  margin: 1rem 0;
-}
-
-
-/* Titre à l'intérieur d'une carte */
-.carte h3 {
-  margin: 0 0 .2rem;
-}
-
-
-/* Texte à l'intérieur d'une carte */
-.carte p {
-  margin: .2rem 0;
-}
-
-
-/* =========================================================
-   12. LISTE DES COMPÉTENCES
-   ========================================================= */
-
-/* Taille du texte de la liste */
-.comp-liste {
-  font-size: .9rem;
-}
-
-
-/* Chaque compétence est affichée comme une petite étiquette */
-.comp {
-  display: inline-block;
-
-  /* Bordure */
-  border: 1px solid var(--trait);
-
-  /* Espace intérieur */
-  padding: 0 .4rem;
-
-  /* Espace entre les compétences */
-  margin: .15rem .3rem .15rem 0;
-
-  /* Fond blanc */
-  background: #fff;
-}
-
-
-/* =========================================================
-   13. TABLEAU
-   ========================================================= */
-
-/* Permet au tableau de défiler horizontalement
-   si l'écran est trop petit */
-.defile {
-  overflow-x: auto;
-}
-
-
-/* Tableau */
-table {
-  border-collapse: collapse; /* Fusionne les bordures */
-  width: 100%;                /* Prend toute la largeur */
-  font-size: .9rem;
-}
-
-
-/* Cellules du tableau */
-th,
-td {
-  border: 1px solid var(--trait); /* Traits du tableau */
-  padding: .4rem .55rem;          /* Espace dans les cases */
-  text-align: left;               /* Texte aligné à gauche */
-  vertical-align: top;            /* Texte aligné en haut */
-}
-
-
-/* En-têtes du tableau */
-th {
-  background: #eef2f5;
-  font-family: Calibri, Arial, sans-serif;
-}
-
-
-/* Cases particulières du tableau */
-td.case {
-  text-align: center;
-  font-weight: bold;
-
-  /* Largeur minimale */
-  min-width: 2.4rem;
-}
-
-
-/* =========================================================
-   14. IMAGES
-   ========================================================= */
-
-img {
-  /* L'image ne peut pas dépasser son conteneur */
-  max-width: 100%;
-
-  /* Garde les proportions */
-  height: auto;
-
-  /* Bordure autour de l'image */
-  border: 1px solid var(--trait);
-}
-
-
-/* =========================================================
-   15. CODE
-   ---------------------------------------------------------
-   Modifie l'apparence des petits morceaux de code
-   affichés dans le texte.
-   ========================================================= */
-
-code {
-  font-size: .9em;
-  background: #eef2f5;
-  padding: 0 .25rem;
-}
-
-
-/* =========================================================
-   16. FOOTER / BAS DE PAGE
-   ========================================================= */
-
-footer {
-  margin-top: 3rem;             /* Espace au-dessus */
-  padding-bottom: 2rem;         /* Espace en dessous */
-
-  font-size: .85rem;
-  color: var(--doux);
-
-  /* Ligne au-dessus du footer */
-  border-top: 1px solid var(--trait);
-}
-
-
-/* =========================================================
-   17. VERSION MOBILE
-   ---------------------------------------------------------
-   Ces règles s'activent lorsque l'écran fait moins
-   de 520 pixels de largeur.
-   ========================================================= */
-
+header, main, footer { max-width: 46rem; margin: 0 auto; padding: 0 1rem; }
+header { padding-top: 1.6rem; display: flex; flex-wrap: wrap; justify-content: space-between; align-items: baseline; gap: .5rem 1.5rem; }
+.site { margin: 0; font: bold 1.05rem Calibri, Arial, sans-serif; }
+.site a { color: var(--encre); text-decoration: none; }
+nav ul { list-style: none; padding: 0; margin: 0; display: flex; flex-wrap: wrap; gap: .3rem 1.2rem; font-family: Calibri, Arial, sans-serif; }
+h1, h2, h3 { font-family: Calibri, Arial, sans-serif; line-height: 1.25; }
+h1 { font-size: 2rem; margin: 2rem 0 0; }
+h2 { font-size: 1.35rem; margin-top: 2.2rem; border-bottom: 1px solid var(--trait); padding-bottom: .3rem; }
+a { color: var(--accent); }
+a:focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; }
+.sous-titre, .meta { color: var(--doux); margin: .3rem 0 0; }
+.meta { font-size: .85rem; }
+.carte { border: 1px solid var(--trait); background: #fff; padding: .8rem 1rem; margin: 1rem 0; }
+.carte h3 { margin: 0 0 .2rem; }
+.carte p { margin: .2rem 0; }
+.comp-liste { font-size: .9rem; }
+.comp { display: inline-block; border: 1px solid var(--trait); padding: 0 .4rem; margin: .15rem .3rem .15rem 0; background: #fff; }
+.defile { overflow-x: auto; }
+table { border-collapse: collapse; width: 100%; font-size: .9rem; }
+th, td { border: 1px solid var(--trait); padding: .4rem .55rem; text-align: left; vertical-align: top; }
+th { background: #eef2f5; font-family: Calibri, Arial, sans-serif; }
+td.case { text-align: center; font-weight: bold; min-width: 2.4rem; }
+img { max-width: 100%; height: auto; border: 1px solid var(--trait); }
+code { font-size: .9em; background: #eef2f5; padding: 0 .25rem; }
+footer { margin-top: 3rem; padding-bottom: 2rem; font-size: .85rem; color: var(--doux); border-top: 1px solid var(--trait); }
 @media (max-width: 520px) {
-
-  /* Texte légèrement plus petit sur téléphone */
-  body {
-    font-size: 16px;
-  }
-
-  /* Grand titre légèrement plus petit */
-  h1 {
-    font-size: 1.6rem;
-  }
+  body { font-size: 16px; }
+  h1 { font-size: 1.6rem; }
 }
-```
