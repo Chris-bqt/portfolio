@@ -271,7 +271,7 @@ td {
 
 /* En-têtes du tableau */
 th {
-  background: #eef2f5;
+  background: var(--fond);
   font-family: Calibri, Arial, sans-serif;
 }
 
@@ -311,7 +311,7 @@ img {
 
 code {
   font-size: .9em;
-  background: #eef2f5;
+  background: var(--fond);
   padding: 0 .25rem;
 }
 
