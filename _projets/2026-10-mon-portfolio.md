@@ -24,11 +24,11 @@ Seul, en salle de formation. Un compte GitHub gratuit, le modèle de portfolio d
 
 ## Productions et preuves
 
-- L'adresse publique du site.
-- Le dépôt et son historique des modifications.
-- Le score d'accessibilité relevé.
+- L'adresse publique du site: https://chris-bqt.github.io/portfolio/.
+- ![Le check du codage html]({{ "/images/w3.png" | relative_url }})
+- ![Ceci est l'accessibilité relevée ]({{ "/images/lighthouse.png" | relative_url }})
 - ![Vous avez ici la page d'accueil de mon portfolio en informatique]({{ "/images/preuve-site-portfolio.png" | relative_url }})
 
 ## Ce que j'en retiens
 
-Remplacez cette phrase par une difficulté rencontrée et la façon dont vous l'avez réglée.
+J'ai rencontré une difficulté au moment de mettre une image, j'ai changé l'index avant d'incorporer l'image dans le fichier fait pour. J'ai reglé cela en cherchant ma propre erreur.
