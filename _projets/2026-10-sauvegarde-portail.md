@@ -3,7 +3,7 @@ title: "création de mon portfolio"
 date: 2026-10-07
 cadre: "Atelier de professionnalisation"
 resume: "J'ai crée mon portfolio pour mes épreuves de BTS."
-competences: [c2]
+competences: [c2,c4,c6]
 ---
 
 ## Contexte
