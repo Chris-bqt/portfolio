@@ -1,8 +1,8 @@
 ---
-title: "Intitulé du projet"
+title: "création de mon portfolio"
 date: 2026-10-07
 cadre: "Atelier de professionnalisation"
-resume: "Une phrase : ce que vous avez fait, et pour qui."
+resume: "J'ai crée mon portfolio pour mes épreuves de BTS."
 competences: [c2]
 ---
 
