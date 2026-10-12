@@ -737,3 +737,76 @@ footer a {
     break-inside: avoid;
   }
 }
+
+
+/* ==========================================================
+   17. TABLEAU DES COMPÉTENCES — effets au survol
+   Ces règles ciblent le tableau HTML existant sans modifier
+   son contenu ni le remplissage automatique des croix.
+   ========================================================== */
+
+/* Transition douce pour les cellules du tableau */
+table th,
+table td {
+  transition:
+    background-color 220ms ease,
+    color 220ms ease,
+    border-color 220ms ease,
+    box-shadow 220ms ease;
+}
+
+/* En-têtes P1 / P2 et titre du tableau */
+table thead th {
+  background: var(--surface-2);
+}
+
+/* La ligne entière s'éclaircit légèrement au passage de la souris */
+table tbody tr:hover td {
+  background-color: #292f50;
+  border-color: #4a5278;
+}
+
+/* Les cases de croix ressortent un peu plus au survol */
+table td.case:hover {
+  background-color: #303858;
+  box-shadow: inset 0 0 0 1px var(--accent);
+}
+
+/* La croix ou le lien de projet devient plus lumineux */
+table td.case a {
+  display: inline-block;
+  transition:
+    color 200ms ease,
+    transform 200ms ease,
+    text-shadow 200ms ease;
+}
+
+table td.case a:hover,
+table td.case a:focus-visible {
+  color: var(--accent);
+  transform: scale(1.2);
+  text-shadow: 0 0 10px var(--accent);
+}
+
+/* Petit effet de soulèvement des lignes, sans déplacer le tableau */
+@media (hover: hover) {
+  table tbody tr:hover td:first-child {
+    box-shadow: inset 3px 0 0 var(--accent);
+  }
+}
+
+/* Respecte le réglage système qui réduit les animations */
+@media (prefers-reduced-motion: reduce) {
+  table th,
+  table td,
+  table td.case a {
+    transition: none;
+  }
+
+  table td.case a:hover,
+  table td.case a:focus-visible {
+    transform: none;
+  }
+}
+
+
