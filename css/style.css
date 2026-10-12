@@ -1,75 +1,177 @@
-```css
 /* =========================================================
    1. COULEURS DU SITE
    ---------------------------------------------------------
-   Modifie ces couleurs pour changer l'apparence générale
-   du portfolio.
+   Modifie ces valeurs pour changer l'apparence générale.
+   Le mode sombre est géré automatiquement plus bas : il
+   suit le réglage de l'ordinateur ou du téléphone.
    ========================================================= */
 
 :root {
-  --encre: #1d2630;   /* Couleur principale du texte */
-  --accent: #0a5c8c;  /* Couleur des liens et éléments importants */
-  --fond: #fbfbf9;    /* Couleur de fond de la page */
-  --trait: #d5dbe1;   /* Couleur des bordures et séparations */
-  --doux: #5b6672;    /* Couleur du texte secondaire */
+  --encre: #1b2531;     /* Texte principal */
+  --doux: #566270;      /* Texte secondaire */
+  --accent: #0a5c8c;    /* Liens et éléments importants */
+  --fond: #f9fafb;      /* Fond de la page */
+  --surface: #ffffff;   /* Fond des cartes, étiquettes, cases */
+  --surface-2: #eef2f5; /* Fond des en-têtes de tableau et du code */
+  --trait: #d3dae1;     /* Bordures et séparations */
+
+  /* Polices : on utilise celles déjà installées sur l'appareil,
+     le site se charge donc instantanément. */
+  --police-texte: Charter, "Iowan Old Style", "Palatino Linotype",
+                  Georgia, "Times New Roman", serif;
+  --police-titre: "Segoe UI Variable Text", "Segoe UI", system-ui,
+                  -apple-system, Roboto, Calibri, Arial, sans-serif;
+  --police-code: ui-monospace, "SF Mono", Consolas, Menlo, monospace;
+
+  /* Un seul arrondi, très léger, pour tout le site */
+  --rayon: 3px;
+
+  /* Indique au navigateur que le site existe en clair et en sombre
+     (barres de défilement, champs de formulaire, etc.) */
+  color-scheme: light dark;
 }
 
 
 /* =========================================================
-   2. RÈGLE GÉNÉRALE
+   2. MODE SOMBRE
+   ---------------------------------------------------------
+   Remplace uniquement les couleurs : tout le reste du site
+   s'adapte tout seul.
+   ========================================================= */
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --encre: #e4e9ee;
+    --doux: #9aa6b3;
+    --accent: #6db6e8;
+    --fond: #11171d;
+    --surface: #18202a;
+    --surface-2: #212b36;
+    --trait: #2d3946;
+  }
+}
+
+
+/* =========================================================
+   3. RÈGLES GÉNÉRALES
    ========================================================= */
 
 /* Empêche les éléments de dépasser leur largeur prévue */
-* {
+*,
+*::before,
+*::after {
   box-sizing: border-box;
 }
 
+html {
+  /* Respecte la taille de texte choisie par le visiteur */
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
 
-/* =========================================================
-   3. PAGE ENTIÈRE
-   ========================================================= */
+  /* Quand on clique sur un lien interne (#projets, par exemple),
+     le titre ne se retrouve pas collé tout en haut de l'écran */
+  scroll-padding-top: 1.5rem;
+}
 
-body {
-  margin: 0;                 /* Supprime la marge par défaut */
-  background: var(--fond);   /* Couleur de fond */
-  color: var(--encre);       /* Couleur principale du texte */
-
-  /* Police du texte normal */
-  font: 17px/1.6 Georgia, "Times New Roman", serif;
+/* Défilement doux, sauf pour les personnes qui ont désactivé
+   les animations dans leur système */
+@media (prefers-reduced-motion: no-preference) {
+  html {
+    scroll-behavior: smooth;
+  }
 }
 
 
 /* =========================================================
-   4. LARGEUR PRINCIPALE DU SITE
+   4. PAGE ENTIÈRE
+   ========================================================= */
+
+body {
+  margin: 0;
+  background: var(--fond);
+  color: var(--encre);
+
+  /* Texte courant : empattements, un peu plus aéré qu'avant */
+  font-family: var(--police-texte);
+  font-size: 1.0625rem;   /* = 17 px par défaut */
+  line-height: 1.65;
+
+  /* Lissage des lettres, plus net sur écran */
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+/* Évite les mots seuls ("orphelins") en fin de paragraphe */
+p,
+li {
+  text-wrap: pretty;
+}
+
+/* Couleur de la sélection à la souris */
+::selection {
+  background: var(--accent);
+  color: var(--fond);
+}
+
+
+/* =========================================================
+   5. LARGEUR PRINCIPALE DU SITE
    ---------------------------------------------------------
    header = haut de page
    main   = contenu principal
    footer = bas de page
+   La largeur de 44rem donne environ 70 caractères par ligne,
+   ce qui est le confort de lecture idéal.
    ========================================================= */
 
 header,
 main,
 footer {
-  max-width: 46rem;          /* Largeur maximale du contenu */
-  margin: 0 auto;             /* Centre le contenu */
-  padding: 0 1rem;            /* Espace à gauche et à droite */
+  max-width: 44rem;
+  margin-inline: auto;                /* Centre le contenu */
+  padding-inline: max(1rem, env(safe-area-inset-left));
 }
 
 
 /* =========================================================
-   5. EN-TÊTE / HEADER
+   6. LIEN D'ÉVITEMENT (accessibilité)
+   ---------------------------------------------------------
+   Invisible tant qu'on n'appuie pas sur la touche Tab.
+   Permet de sauter le menu pour aller au contenu.
+   À ajouter dans le HTML, tout en haut du <body> :
+   <a class="evitement" href="#contenu">Aller au contenu</a>
+   et donner id="contenu" à la balise <main>.
+   ========================================================= */
+
+.evitement {
+  position: absolute;
+  left: 1rem;
+  top: -4rem;
+  padding: .5rem .8rem;
+  background: var(--encre);
+  color: var(--fond);
+  font-family: var(--police-titre);
+  border-radius: var(--rayon);
+  z-index: 10;
+}
+
+.evitement:focus {
+  top: 1rem;
+}
+
+
+/* =========================================================
+   7. EN-TÊTE / HEADER
    ========================================================= */
 
 header {
   padding-top: 1.6rem;
+  padding-bottom: 1rem;
 
-  /* Permet de placer le nom et le menu sur une même ligne */
+  /* Nom et menu sur la même ligne, le menu passe dessous
+     sur petit écran */
   display: flex;
-
-  /* Autorise le menu à passer à la ligne sur petit écran */
   flex-wrap: wrap;
-
-  /* Espace entre les éléments */
   justify-content: space-between;
   align-items: baseline;
   gap: .5rem 1.5rem;
@@ -77,278 +179,474 @@ header {
 
 
 /* =========================================================
-   6. NOM / TITRE DU SITE
+   8. NOM / TITRE DU SITE
    ========================================================= */
 
 .site {
   margin: 0;
-
-  /* Police du nom du site */
-  font: bold 1.05rem Calibri, Arial, sans-serif;
+  font: 700 1.1rem/1.3 var(--police-titre);
+  letter-spacing: -.01em;
 }
 
 .site a {
   color: var(--encre);
-  text-decoration: none; /* Supprime le soulignement */
+  text-decoration: none;
 }
 
 
 /* =========================================================
-   7. MENU DE NAVIGATION
+   9. MENU DE NAVIGATION
+   ---------------------------------------------------------
+   La page en cours est soulignée si tu ajoutes
+   aria-current="page" sur son lien dans le HTML :
+   <a href="projets.html" aria-current="page">Projets</a>
    ========================================================= */
 
 nav ul {
-  list-style: none;       /* Supprime les puces */
+  list-style: none;
   padding: 0;
   margin: 0;
 
-  /* Place les liens les uns à côté des autres */
   display: flex;
-
-  /* Permet au menu de passer à la ligne */
   flex-wrap: wrap;
+  gap: .3rem 1.3rem;
 
-  /* Espace entre les liens */
-  gap: .3rem 1.2rem;
+  font-family: var(--police-titre);
+  font-size: .95rem;
+}
 
-  /* Police du menu */
-  font-family: Calibri, Arial, sans-serif;
+nav a {
+  color: var(--doux);
+  text-decoration: none;
+
+  /* Zone de clic plus confortable au doigt */
+  display: inline-block;
+  padding: .25rem 0;
+  border-bottom: 2px solid transparent;
+}
+
+nav a:hover {
+  color: var(--encre);
+  border-bottom-color: var(--trait);
+}
+
+nav a[aria-current="page"] {
+  color: var(--encre);
+  font-weight: 600;
+  border-bottom-color: var(--accent);
 }
 
 
 /* =========================================================
-   8. TITRES
+   10. TITRES
    ========================================================= */
 
-/* Police commune aux titres */
 h1,
 h2,
 h3 {
-  font-family: Calibri, Arial, sans-serif;
+  font-family: var(--police-titre);
   line-height: 1.25;
+
+  /* Répartit les lignes de façon équilibrée dans un titre long */
+  text-wrap: balance;
 }
 
-
-/* Grand titre principal */
+/* Grand titre principal : il s'adapte à la largeur de l'écran */
 h1 {
-  font-size: 2rem;
-  margin: 2rem 0 0;
+  font-size: clamp(1.9rem, 1.4rem + 2.2vw, 2.6rem);
+  font-weight: 750;
+  letter-spacing: -.025em;
+  line-height: 1.15;
+  margin: 2.4rem 0 0;
 }
-
 
 /* Titres de sections */
 h2 {
   font-size: 1.35rem;
-  margin-top: 2.2rem;
-
-  /* Ligne sous le titre */
+  font-weight: 650;
+  letter-spacing: -.01em;
+  margin: 2.6rem 0 1rem;
+  padding-bottom: .35rem;
   border-bottom: 1px solid var(--trait);
+}
 
-  padding-bottom: .3rem;
+h3 {
+  font-size: 1.1rem;
+  font-weight: 650;
+  margin: 1.6rem 0 .4rem;
 }
 
 
 /* =========================================================
-   9. LIENS
+   11. LIENS
    ========================================================= */
 
-/* Couleur de tous les liens */
 a {
   color: var(--accent);
+  text-underline-offset: .18em;
+  text-decoration-thickness: 1px;
 }
 
+a:hover {
+  text-decoration-thickness: 2px;
+}
 
-/* Apparence du lien lorsqu'on navigue au clavier */
-a:focus-visible {
+/* Contour visible quand on navigue au clavier */
+:focus-visible {
   outline: 3px solid var(--accent);
-  outline-offset: 2px;
+  outline-offset: 3px;
+  border-radius: var(--rayon);
 }
 
 
 /* =========================================================
-   10. SOUS-TITRES ET INFORMATIONS SECONDAIRES
+   12. SOUS-TITRES ET INFORMATIONS SECONDAIRES
    ========================================================= */
 
 .sous-titre,
 .meta {
   color: var(--doux);
-  margin: .3rem 0 0;
+  margin: .4rem 0 0;
 }
 
+/* Le sous-titre est un peu plus grand : c'est la phrase
+   d'accroche sous ton nom */
+.sous-titre {
+  font-size: 1.15rem;
+  line-height: 1.5;
+}
 
-/* Texte "meta" plus petit */
+/* Texte "meta" plus petit (dates, lieux, durées…) */
 .meta {
+  font-family: var(--police-titre);
   font-size: .85rem;
 }
 
 
 /* =========================================================
-   11. CARTES
+   13. LISTES ET CITATIONS
+   ========================================================= */
+
+main ul,
+main ol {
+  padding-left: 1.3rem;
+}
+
+main li {
+  margin: .3rem 0;
+}
+
+main li::marker {
+  color: var(--doux);
+}
+
+blockquote {
+  margin: 1.5rem 0;
+  padding: .1rem 0 .1rem 1rem;
+  border-left: 3px solid var(--trait);
+  color: var(--doux);
+}
+
+hr {
+  border: 0;
+  border-top: 1px solid var(--trait);
+  margin: 2.2rem 0;
+}
+
+
+/* =========================================================
+   14. CARTES
    ---------------------------------------------------------
-   .carte correspond aux blocs encadrés du portfolio.
+   .carte correspond aux blocs encadrés du portfolio
+   (projets, stages, formations…).
+   Le trait coloré à gauche est le seul élément « décoratif »
+   du site : il guide l'œil de carte en carte.
    ========================================================= */
 
 .carte {
-  border: 1px solid var(--trait); /* Bordure */
-  background: #fff;               /* Fond blanc */
+  background: var(--surface);
+  border: 1px solid var(--trait);
+  border-left: 4px solid var(--accent);
+  border-radius: var(--rayon);
 
-  /* Espace intérieur */
-  padding: .8rem 1rem;
-
-  /* Espace extérieur */
-  margin: 1rem 0;
+  padding: 1rem 1.2rem;
+  margin: 1.2rem 0;
 }
 
-
-/* Titre à l'intérieur d'une carte */
 .carte h3 {
-  margin: 0 0 .2rem;
+  margin: 0 0 .25rem;
 }
 
-
-/* Texte à l'intérieur d'une carte */
 .carte p {
-  margin: .2rem 0;
+  margin: .3rem 0;
+}
+
+/* Pas de marge superflue en haut ou en bas de la carte */
+.carte > :first-child {
+  margin-top: 0;
+}
+
+.carte > :last-child {
+  margin-bottom: 0;
 }
 
 
 /* =========================================================
-   12. LISTE DES COMPÉTENCES
+   15. LISTE DES COMPÉTENCES
    ========================================================= */
 
-/* Taille du texte de la liste */
 .comp-liste {
+  font-family: var(--police-titre);
   font-size: .9rem;
+  line-height: 2;   /* Laisse de l'air entre les lignes d'étiquettes */
 }
 
-
-/* Chaque compétence est affichée comme une petite étiquette */
+/* Chaque compétence est une petite étiquette */
 .comp {
   display: inline-block;
-
-  /* Bordure */
+  background: var(--surface);
   border: 1px solid var(--trait);
+  border-radius: var(--rayon);
 
-  /* Espace intérieur */
-  padding: 0 .4rem;
-
-  /* Espace entre les compétences */
-  margin: .15rem .3rem .15rem 0;
-
-  /* Fond blanc */
-  background: #fff;
+  padding: 0 .55rem;
+  margin: 0 .3rem 0 0;
+  line-height: 1.7;
 }
 
 
 /* =========================================================
-   13. TABLEAU
+   16. TABLEAU
+   ---------------------------------------------------------
+   Entoure ton <table> d'un <div class="defile"> pour qu'il
+   puisse défiler sur petit écran sans casser la page.
    ========================================================= */
 
-/* Permet au tableau de défiler horizontalement
-   si l'écran est trop petit */
 .defile {
   overflow-x: auto;
+  margin: 1.2rem 0;
+  border: 1px solid var(--trait);
+  border-radius: var(--rayon);
 }
 
+/* Contour visible quand le tableau défile au clavier
+   (ajoute tabindex="0" sur le <div class="defile">) */
+.defile:focus-visible {
+  outline-offset: 0;
+}
 
-/* Tableau */
 table {
-  border-collapse: collapse; /* Fusionne les bordures */
-  width: 100%;                /* Prend toute la largeur */
+  border-collapse: collapse;
+  width: 100%;
   font-size: .9rem;
+  font-variant-numeric: tabular-nums;   /* Chiffres alignés */
 }
 
+caption {
+  caption-side: top;
+  text-align: left;
+  padding: .6rem .7rem;
+  font: 600 .9rem var(--police-titre);
+  color: var(--doux);
+}
 
-/* Cellules du tableau */
 th,
 td {
-  border: 1px solid var(--trait); /* Traits du tableau */
-  padding: .4rem .55rem;          /* Espace dans les cases */
-  text-align: left;               /* Texte aligné à gauche */
-  vertical-align: top;            /* Texte aligné en haut */
+  padding: .5rem .7rem;
+  text-align: left;
+  vertical-align: top;
+  border: 1px solid var(--trait);
 }
 
+/* Le tableau est déjà encadré par .defile : on retire
+   la bordure extérieure pour éviter un double trait */
+tr > :first-child {
+  border-left: 0;
+}
 
-/* En-têtes du tableau */
+tr > :last-child {
+  border-right: 0;
+}
+
+thead tr:first-child > * {
+  border-top: 0;
+}
+
+tbody tr:last-child > * {
+  border-bottom: 0;
+}
+
 th {
-  background: #eef2f5;
-  font-family: Calibri, Arial, sans-serif;
+  background: var(--surface-2);
+  font-family: var(--police-titre);
+  font-weight: 650;
 }
 
+/* Une ligne sur deux légèrement teintée : plus facile à suivre */
+tbody tr:nth-child(even) td {
+  background: color-mix(in srgb, var(--surface-2) 45%, transparent);
+}
 
-/* Cases particulières du tableau */
+/* Cases centrées (croix, notes, niveaux…) */
 td.case {
   text-align: center;
-  font-weight: bold;
-
-  /* Largeur minimale */
+  font-weight: 700;
   min-width: 2.4rem;
+  color: var(--accent);
 }
 
 
 /* =========================================================
-   14. IMAGES
+   17. IMAGES
    ========================================================= */
 
 img {
-  /* L'image ne peut pas dépasser son conteneur */
   max-width: 100%;
-
-  /* Garde les proportions */
   height: auto;
-
-  /* Bordure autour de l'image */
+  display: block;                /* Supprime l'espace fantôme sous l'image */
+  margin: 1.2rem 0;
   border: 1px solid var(--trait);
+  border-radius: var(--rayon);
+}
+
+/* Une image placée dans un paragraphe reste dans le texte */
+p img {
+  display: inline;
+  margin: 0;
+}
+
+figure {
+  margin: 1.5rem 0;
+}
+
+figure img {
+  margin: 0;
+}
+
+figcaption {
+  margin-top: .5rem;
+  font: .85rem/1.4 var(--police-titre);
+  color: var(--doux);
 }
 
 
 /* =========================================================
-   15. CODE
-   ---------------------------------------------------------
-   Modifie l'apparence des petits morceaux de code
-   affichés dans le texte.
+   18. CODE
    ========================================================= */
 
+/* Petit morceau de code dans une phrase */
 code {
-  font-size: .9em;
-  background: #eef2f5;
-  padding: 0 .25rem;
+  font-family: var(--police-code);
+  font-size: .88em;
+  background: var(--surface-2);
+  padding: .1rem .3rem;
+  border-radius: var(--rayon);
+}
+
+/* Bloc de code sur plusieurs lignes : <pre><code>…</code></pre> */
+pre {
+  background: var(--surface-2);
+  border: 1px solid var(--trait);
+  border-radius: var(--rayon);
+  padding: .9rem 1rem;
+  margin: 1.2rem 0;
+  overflow-x: auto;
+  font-size: .88rem;
+  line-height: 1.5;
+}
+
+/* Dans un bloc, le fond est déjà donné par <pre> */
+pre code {
+  background: none;
+  padding: 0;
+  font-size: inherit;
 }
 
 
 /* =========================================================
-   16. FOOTER / BAS DE PAGE
+   19. FOOTER / BAS DE PAGE
    ========================================================= */
 
 footer {
-  margin-top: 3rem;             /* Espace au-dessus */
-  padding-bottom: 2rem;         /* Espace en dessous */
+  margin-top: 4rem;
+  padding-top: 1.2rem;
+  padding-bottom: max(2rem, env(safe-area-inset-bottom));
 
-  font-size: .85rem;
+  font: .85rem/1.5 var(--police-titre);
   color: var(--doux);
-
-  /* Ligne au-dessus du footer */
   border-top: 1px solid var(--trait);
+}
+
+/* Les liens du footer restent discrets */
+footer a {
+  color: inherit;
 }
 
 
 /* =========================================================
-   17. VERSION MOBILE
+   20. VERSION MOBILE
    ---------------------------------------------------------
-   Ces règles s'activent lorsque l'écran fait moins
-   de 520 pixels de largeur.
+   S'active quand l'écran fait moins de 520 pixels.
+   Les titres se redimensionnent déjà tout seuls (clamp),
+   il ne reste qu'à ajuster le texte et les cartes.
    ========================================================= */
 
 @media (max-width: 520px) {
 
-  /* Texte légèrement plus petit sur téléphone */
   body {
-    font-size: 16px;
+    font-size: 1rem;   /* = 16 px */
   }
 
-  /* Grand titre légèrement plus petit */
-  h1 {
-    font-size: 1.6rem;
+  h2 {
+    margin-top: 2.2rem;
+  }
+
+  .carte {
+    padding: .85rem 1rem;
   }
 }
-```
+
+
+/* =========================================================
+   21. IMPRESSION
+   ---------------------------------------------------------
+   Utile si un recruteur imprime ou enregistre ton portfolio
+   en PDF : fond blanc, menu masqué, adresse des liens visible.
+   ========================================================= */
+
+@media print {
+
+  :root {
+    --encre: #000;
+    --doux: #333;
+    --accent: #000;
+    --fond: #fff;
+    --surface: #fff;
+    --surface-2: #f2f2f2;
+    --trait: #999;
+  }
+
+  body {
+    font-size: 11pt;
+  }
+
+  nav,
+  .evitement {
+    display: none;
+  }
+
+  /* Affiche l'adresse après chaque lien externe */
+  main a[href^="http"]::after {
+    content: " (" attr(href) ")";
+    font-size: .85em;
+    color: var(--doux);
+    word-break: break-all;
+  }
+
+  /* Évite de couper une carte ou une image entre deux pages */
+  .carte,
+  img,
+  pre,
+  tr {
+    break-inside: avoid;
+  }
+}
