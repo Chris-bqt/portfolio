@@ -15,6 +15,14 @@
   --surface-2: #eef2f5; /* Fond des en-têtes de tableau et du code */
   --trait: #d3dae1;     /* Bordures et séparations */
 
+  /* Les 4 couleurs des projets : la 1re carte est bleue, la 2e
+     verte, la 3e violette, la 4e orange, puis ça recommence.
+     Change ces valeurs pour changer les couleurs des cartes. */
+  --c1: #0a5c8c;   /* Bleu */
+  --c2: #0f766e;   /* Vert sapin */
+  --c3: #6d4bb5;   /* Violet */
+  --c4: #b45309;   /* Orange brûlé */
+
   /* Polices : on utilise celles déjà installées sur l'appareil,
      le site se charge donc instantanément. */
   --police-texte: Charter, "Iowan Old Style", "Palatino Linotype",
@@ -36,7 +44,8 @@
    2. MODE SOMBRE
    ---------------------------------------------------------
    Remplace uniquement les couleurs : tout le reste du site
-   s'adapte tout seul.
+   s'adapte tout seul. Les couleurs des cartes sont éclaircies
+   pour rester lisibles sur fond foncé.
    ========================================================= */
 
 @media (prefers-color-scheme: dark) {
@@ -48,6 +57,11 @@
     --surface: #18202a;
     --surface-2: #212b36;
     --trait: #2d3946;
+
+    --c1: #6db6e8;
+    --c2: #3fc7b5;
+    --c3: #a78bfa;
+    --c4: #f0a35c;
   }
 }
 
@@ -138,9 +152,6 @@ footer {
    ---------------------------------------------------------
    Invisible tant qu'on n'appuie pas sur la touche Tab.
    Permet de sauter le menu pour aller au contenu.
-   À ajouter dans le HTML, tout en haut du <body> :
-   <a class="evitement" href="#contenu">Aller au contenu</a>
-   et donner id="contenu" à la balise <main>.
    ========================================================= */
 
 .evitement {
@@ -197,9 +208,8 @@ header {
 /* =========================================================
    9. MENU DE NAVIGATION
    ---------------------------------------------------------
-   La page en cours est soulignée si tu ajoutes
-   aria-current="page" sur son lien dans le HTML :
-   <a href="projets.html" aria-current="page">Projets</a>
+   La page en cours est soulignée grâce à
+   aria-current="page" (déjà géré dans le layout).
    ========================================================= */
 
 nav ul {
@@ -227,7 +237,7 @@ nav a {
 
 nav a:hover {
   color: var(--encre);
-  border-bottom-color: var(--trait);
+  border-bottom-color: var(--accent);
 }
 
 nav a[aria-current="page"] {
@@ -260,14 +270,18 @@ h1 {
   margin: 2.4rem 0 0;
 }
 
-/* Titres de sections */
+/* Titres de sections : un trait gris sur toute la largeur,
+   avec un court trait de couleur au début */
 h2 {
   font-size: 1.35rem;
   font-weight: 650;
   letter-spacing: -.01em;
   margin: 2.6rem 0 1rem;
-  padding-bottom: .35rem;
+  padding-bottom: .4rem;
   border-bottom: 1px solid var(--trait);
+
+  background: linear-gradient(var(--accent), var(--accent))
+              left bottom / 3rem 3px no-repeat;
 }
 
 h3 {
@@ -355,26 +369,49 @@ hr {
 
 
 /* =========================================================
-   14. CARTES
+   14. CARTES DE PROJETS
    ---------------------------------------------------------
-   .carte correspond aux blocs encadrés du portfolio
-   (projets, stages, formations…).
-   Le trait coloré à gauche est le seul élément « décoratif »
-   du site : il guide l'œil de carte en carte.
+   Chaque carte a sa propre couleur (--c), qui change de l'une
+   à l'autre : bleu, vert, violet, orange, puis on recommence.
+   Au survol (ou quand on arrive dessus au clavier), la carte
+   grossit légèrement, se teinte de sa couleur et projette
+   une ombre colorée.
+   Toute la carte est cliquable, pas seulement le titre.
    ========================================================= */
 
 .carte {
+  /* Couleur de la carte (bleue par défaut) */
+  --c: var(--c1);
+
+  position: relative;    /* Nécessaire pour rendre toute la carte cliquable */
   background: var(--surface);
   border: 1px solid var(--trait);
-  border-left: 4px solid var(--accent);
+  border-left: 4px solid var(--c);
   border-radius: var(--rayon);
 
   padding: 1rem 1.2rem;
   margin: 1.2rem 0;
 }
 
+/* Une couleur différente pour chaque carte, en boucle */
+article.carte:nth-of-type(4n + 2) { --c: var(--c2); }
+article.carte:nth-of-type(4n + 3) { --c: var(--c3); }
+article.carte:nth-of-type(4n + 4) { --c: var(--c4); }
+
 .carte h3 {
   margin: 0 0 .25rem;
+}
+
+.carte h3 a {
+  color: var(--encre);
+  text-decoration: none;
+}
+
+/* Étend la zone de clic du titre à toute la carte */
+.carte h3 a::after {
+  content: "";
+  position: absolute;
+  inset: 0;
 }
 
 .carte p {
@@ -390,9 +427,59 @@ hr {
   margin-bottom: 0;
 }
 
+/* --- Effet au survol et au clavier --- */
+
+.carte:hover,
+.carte:focus-within {
+  z-index: 1;   /* La carte agrandie passe au-dessus de ses voisines */
+  border-color: var(--c);
+  background: color-mix(in srgb, var(--c) 8%, var(--surface));
+  box-shadow: 0 1rem 1.8rem -1rem color-mix(in srgb, var(--c) 60%, transparent);
+}
+
+.carte:hover h3 a,
+.carte:focus-within h3 a {
+  color: var(--c);
+  text-decoration: underline;
+  text-decoration-thickness: 2px;
+  text-underline-offset: .18em;
+}
+
+/* Animation : uniquement pour ceux qui n'ont pas désactivé
+   les animations dans leur système */
+@media (prefers-reduced-motion: no-preference) {
+  .carte {
+    transition: transform .22s ease,
+                box-shadow .22s ease,
+                background-color .22s ease,
+                border-color .22s ease;
+  }
+
+  .carte:hover,
+  .carte:focus-within {
+    transform: translateY(-4px) scale(1.025);   /* ← la taille du grossissement */
+  }
+}
+
+/* Contour de focus autour de toute la carte plutôt que
+   seulement autour du titre (navigateurs récents uniquement) */
+@supports selector(:has(a)) {
+  .carte h3 a:focus-visible {
+    outline: none;
+  }
+
+  .carte:has(h3 a:focus-visible) {
+    outline: 3px solid var(--c);
+    outline-offset: 3px;
+  }
+}
+
 
 /* =========================================================
    15. LISTE DES COMPÉTENCES
+   ---------------------------------------------------------
+   Chaque étiquette reprend, en boucle, les couleurs des
+   projets : le liseré à gauche et le survol changent.
    ========================================================= */
 
 .comp-liste {
@@ -401,16 +488,27 @@ hr {
   line-height: 2;   /* Laisse de l'air entre les lignes d'étiquettes */
 }
 
-/* Chaque compétence est une petite étiquette */
 .comp {
+  --c: var(--c1);
+
   display: inline-block;
   background: var(--surface);
   border: 1px solid var(--trait);
+  border-left: 3px solid var(--c);
   border-radius: var(--rayon);
 
   padding: 0 .55rem;
   margin: 0 .3rem 0 0;
   line-height: 1.7;
+}
+
+.comp:nth-child(4n + 2) { --c: var(--c2); }
+.comp:nth-child(4n + 3) { --c: var(--c3); }
+.comp:nth-child(4n + 4) { --c: var(--c4); }
+
+.comp:hover {
+  background: color-mix(in srgb, var(--c) 12%, var(--surface));
+  border-color: var(--c);
 }
 
 
@@ -486,12 +584,25 @@ tbody tr:nth-child(even) td {
   background: color-mix(in srgb, var(--surface-2) 45%, transparent);
 }
 
-/* Cases centrées (croix, notes, niveaux…) */
+/* La ligne survolée se teinte de la couleur d'accent */
+tbody tr:hover > * {
+  background: color-mix(in srgb, var(--accent) 10%, var(--surface));
+}
+
+/* Cases centrées (croix des compétences) */
 td.case {
   text-align: center;
   font-weight: 700;
   min-width: 2.4rem;
-  color: var(--accent);
+}
+
+td.case a {
+  display: block;   /* Toute la case est cliquable */
+  text-decoration: none;
+}
+
+td.case a:hover {
+  text-decoration: underline;
 }
 
 
@@ -586,8 +697,6 @@ footer a {
    20. VERSION MOBILE
    ---------------------------------------------------------
    S'active quand l'écran fait moins de 520 pixels.
-   Les titres se redimensionnent déjà tout seuls (clamp),
-   il ne reste qu'à ajuster le texte et les cartes.
    ========================================================= */
 
 @media (max-width: 520px) {
