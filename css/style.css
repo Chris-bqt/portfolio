@@ -7,21 +7,21 @@
    ========================================================= */
 
 :root {
-  --encre: #17132e;     /* Texte principal */
-  --doux: #625d7a;      /* Texte secondaire */
-  --accent: #6d28d9;    /* Liens et éléments importants */
-  --fond: #f6f2ff;      /* Fond de la page */
-  --surface: #ffffff;   /* Fond des cartes, étiquettes, cases */
-  --surface-2: #ebe5fa; /* Fond des en-têtes de tableau et du code */
-  --trait: #d4cbea;     /* Bordures et séparations */
+  --encre: #f3efff;     /* Texte principal */
+  --doux: #aaa3c7;      /* Texte secondaire */
+  --accent: #65f3d1;    /* Liens et éléments importants */
+  --fond: #0c1020;      /* Fond de la page */
+  --surface: #151a2e;   /* Fond des cartes, étiquettes, cases */
+  --surface-2: #202542; /* Fond des en-têtes de tableau et du code */
+  --trait: #343956;     /* Bordures et séparations */
 
   /* Les 4 couleurs des projets : la 1re carte est bleue, la 2e
      verte, la 3e violette, la 4e orange, puis ça recommence.
      Change ces valeurs pour changer les couleurs des cartes. */
-  --c1: #00a99a;   /* Bleu */
-  --c2: #e34f9b;   /* Vert sapin */
-  --c3: #6d5dfc;   /* Violet */
-  --c4: #d96a24;   /* Orange brûlé */
+  --c1: #65f3d1;   /* Bleu */
+  --c2: #ff6bb5;   /* Vert sapin */
+  --c3: #a995ff;   /* Violet */
+  --c4: #ffb86b;   /* Orange brûlé */
 
   /* Polices : on utilise celles déjà installées sur l'appareil,
      le site se charge donc instantanément. */
