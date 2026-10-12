@@ -7,21 +7,21 @@
    ========================================================= */
 
 :root {
-  --encre: #1b2531;     /* Texte principal */
-  --doux: #566270;      /* Texte secondaire */
-  --accent: #0a5c8c;    /* Liens et éléments importants */
-  --fond: #f9fafb;      /* Fond de la page */
+  --encre: #17132e;     /* Texte principal */
+  --doux: #625d7a;      /* Texte secondaire */
+  --accent: #6d28d9;    /* Liens et éléments importants */
+  --fond: #f6f2ff;      /* Fond de la page */
   --surface: #ffffff;   /* Fond des cartes, étiquettes, cases */
-  --surface-2: #eef2f5; /* Fond des en-têtes de tableau et du code */
-  --trait: #d3dae1;     /* Bordures et séparations */
+  --surface-2: #ebe5fa; /* Fond des en-têtes de tableau et du code */
+  --trait: #d4cbea;     /* Bordures et séparations */
 
   /* Les 4 couleurs des projets : la 1re carte est bleue, la 2e
      verte, la 3e violette, la 4e orange, puis ça recommence.
      Change ces valeurs pour changer les couleurs des cartes. */
-  --c1: #0a5c8c;   /* Bleu */
-  --c2: #0f766e;   /* Vert sapin */
-  --c3: #6d4bb5;   /* Violet */
-  --c4: #b45309;   /* Orange brûlé */
+  --c1: #00a99a;   /* Bleu */
+  --c2: #e34f9b;   /* Vert sapin */
+  --c3: #6d5dfc;   /* Violet */
+  --c4: #d96a24;   /* Orange brûlé */
 
   /* Polices : on utilise celles déjà installées sur l'appareil,
      le site se charge donc instantanément. */
@@ -50,18 +50,18 @@
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --encre: #e4e9ee;
-    --doux: #9aa6b3;
-    --accent: #6db6e8;
-    --fond: #11171d;
-    --surface: #18202a;
-    --surface-2: #212b36;
-    --trait: #2d3946;
+    --encre: #f3efff;
+    --doux: #aaa3c7;
+    --accent: #65f3d1;
+    --fond: #0c1020;
+    --surface: #151a2e;
+    --surface-2: #202542;
+    --trait: #343956;
 
-    --c1: #6db6e8;
-    --c2: #3fc7b5;
-    --c3: #a78bfa;
-    --c4: #f0a35c;
+    --c1: #65f3d1;
+    --c2: #ff6bb5;
+    --c3: #a995ff;
+    --c4: #ffb86b;
   }
 }
 
