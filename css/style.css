@@ -36,34 +36,12 @@
 
   /* Indique au navigateur que le site existe en clair et en sombre
      (barres de défilement, champs de formulaire, etc.) */
-  color-scheme: light dark;
+  color-scheme: dark;
 }
 
 
-/* =========================================================
-   2. MODE SOMBRE
-   ---------------------------------------------------------
-   Remplace uniquement les couleurs : tout le reste du site
-   s'adapte tout seul. Les couleurs des cartes sont éclaircies
-   pour rester lisibles sur fond foncé.
-   ========================================================= */
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --encre: #f3efff;
-    --doux: #aaa3c7;
-    --accent: #65f3d1;
-    --fond: #0c1020;
-    --surface: #151a2e;
-    --surface-2: #202542;
-    --trait: #343956;
-
-    --c1: #65f3d1;
-    --c2: #ff6bb5;
-    --c3: #a995ff;
-    --c4: #ffb86b;
-  }
-}
+/* Le mode sombre automatique a été retiré : la palette bleu nuit
+   définie dans :root reste identique sur tous les appareils. */
 
 
 /* =========================================================
