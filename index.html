@@ -1,829 +1,206 @@
-/* =========================================================
-   1. COULEURS DU SITE
-   ---------------------------------------------------------
-   Modifie ces valeurs pour changer l'apparence générale.
-   Le mode sombre est géré automatiquement plus bas : il
-   suit le réglage de l'ordinateur ou du téléphone.
-   ========================================================= */
-
-:root {
-  --encre: #1b2531;     /* Texte principal */
-  --doux: #566270;      /* Texte secondaire */
-  --accent: #0a5c8c;    /* Liens et éléments importants */
-  --fond: #f9fafb;      /* Fond de la page */
-  --surface: #ffffff;   /* Fond des cartes, étiquettes, cases */
-  --surface-2: #eef2f5; /* Fond des en-têtes de tableau et du code */
-  --trait: #d3dae1;     /* Bordures et séparations */
-
-  /* Les 4 couleurs des projets : la 1re carte est bleue, la 2e
-     verte, la 3e violette, la 4e orange, puis ça recommence.
-     Change ces valeurs pour changer les couleurs des cartes. */
-  --c1: #0a5c8c;   /* Bleu */
-  --c2: #0f766e;   /* Vert sapin */
-  --c3: #6d4bb5;   /* Violet */
-  --c4: #b45309;   /* Orange brûlé */
-
-  /* Polices : on utilise celles déjà installées sur l'appareil,
-     le site se charge donc instantanément. */
-  --police-texte: Charter, "Iowan Old Style", "Palatino Linotype",
-                  Georgia, "Times New Roman", serif;
-  --police-titre: "Segoe UI Variable Text", "Segoe UI", system-ui,
-                  -apple-system, Roboto, Calibri, Arial, sans-serif;
-  --police-code: ui-monospace, "SF Mono", Consolas, Menlo, monospace;
-
-  /* Un seul arrondi, très léger, pour tout le site */
-  --rayon: 3px;
-
-  /* Indique au navigateur que le site existe en clair et en sombre
-     (barres de défilement, champs de formulaire, etc.) */
-  color-scheme: light dark;
-}
-
-
-/* =========================================================
-   2. MODE SOMBRE
-   ---------------------------------------------------------
-   Remplace uniquement les couleurs : tout le reste du site
-   s'adapte tout seul. Les couleurs des cartes sont éclaircies
-   pour rester lisibles sur fond foncé.
-   ========================================================= */
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --encre: #e4e9ee;
-    --doux: #9aa6b3;
-    --accent: #6db6e8;
-    --fond: #11171d;
-    --surface: #18202a;
-    --surface-2: #212b36;
-    --trait: #2d3946;
-
-    --c1: #6db6e8;
-    --c2: #3fc7b5;
-    --c3: #a78bfa;
-    --c4: #f0a35c;
-  }
-}
-
-
-/* =========================================================
-   3. RÈGLES GÉNÉRALES
-   ========================================================= */
-
-/* Empêche les éléments de dépasser leur largeur prévue */
-*,
-*::before,
-*::after {
-  box-sizing: border-box;
-}
-
-html {
-  /* Respecte la taille de texte choisie par le visiteur */
-  -webkit-text-size-adjust: 100%;
-  text-size-adjust: 100%;
-
-  /* Quand on clique sur un lien interne (#projets, par exemple),
-     le titre ne se retrouve pas collé tout en haut de l'écran */
-  scroll-padding-top: 1.5rem;
-}
-
-/* Défilement doux, sauf pour les personnes qui ont désactivé
-   les animations dans leur système */
-@media (prefers-reduced-motion: no-preference) {
-  html {
-    scroll-behavior: smooth;
-  }
-}
-
-
-/* =========================================================
-   4. PAGE ENTIÈRE
-   ========================================================= */
-
-body {
-  margin: 0;
-  background: var(--fond);
-  color: var(--encre);
-
-  /* Texte courant : empattements, un peu plus aéré qu'avant */
-  font-family: var(--police-texte);
-  font-size: 1.0625rem;   /* = 17 px par défaut */
-  line-height: 1.65;
-
-  /* Lissage des lettres, plus net sur écran */
-  -webkit-font-smoothing: antialiased;
-  text-rendering: optimizeLegibility;
-}
-
-/* Évite les mots seuls ("orphelins") en fin de paragraphe */
-p,
-li {
-  text-wrap: pretty;
-}
-
-/* Couleur de la sélection à la souris */
-::selection {
-  background: var(--accent);
-  color: var(--fond);
-}
-
-
-/* =========================================================
-   5. LARGEUR PRINCIPALE DU SITE
-   ---------------------------------------------------------
-   header = haut de page
-   main   = contenu principal
-   footer = bas de page
-   La largeur de 44rem donne environ 70 caractères par ligne,
-   ce qui est le confort de lecture idéal.
-   ========================================================= */
-
-header,
-main,
-footer {
-  max-width: 44rem;
-  margin-inline: auto;                /* Centre le contenu */
-  padding-inline: max(1rem, env(safe-area-inset-left));
-}
-
-
-/* =========================================================
-   6. LIEN D'ÉVITEMENT (accessibilité)
-   ---------------------------------------------------------
-   Invisible tant qu'on n'appuie pas sur la touche Tab.
-   Permet de sauter le menu pour aller au contenu.
-   ========================================================= */
-
-.evitement {
-  position: absolute;
-  left: 1rem;
-  top: -4rem;
-  padding: .5rem .8rem;
-  background: var(--encre);
-  color: var(--fond);
-  font-family: var(--police-titre);
-  border-radius: var(--rayon);
-  z-index: 10;
-}
-
-.evitement:focus {
-  top: 1rem;
-}
-
-
-/* =========================================================
-   7. EN-TÊTE / HEADER
-   ========================================================= */
-
-header {
-  padding-top: 1.6rem;
-  padding-bottom: 1rem;
-
-  /* Nom et menu sur la même ligne, le menu passe dessous
-     sur petit écran */
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
-  align-items: baseline;
-  gap: .5rem 1.5rem;
-}
-
-
-/* =========================================================
-   8. NOM / TITRE DU SITE
-   ========================================================= */
-
-.site {
-  margin: 0;
-  font: 700 1.1rem/1.3 var(--police-titre);
-  letter-spacing: -.01em;
-}
-
-.site a {
-  color: var(--encre);
-  text-decoration: none;
-}
-
-
-/* =========================================================
-   9. MENU DE NAVIGATION
-   ---------------------------------------------------------
-   La page en cours est soulignée grâce à
-   aria-current="page" (déjà géré dans le layout).
-   ========================================================= */
-
-nav ul {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-
-  display: flex;
-  flex-wrap: wrap;
-  gap: .3rem 1.3rem;
-
-  font-family: var(--police-titre);
-  font-size: .95rem;
-}
-
-nav a {
-  color: var(--doux);
-  text-decoration: none;
-
-  /* Zone de clic plus confortable au doigt */
-  display: inline-block;
-  padding: .25rem 0;
-  border-bottom: 2px solid transparent;
-}
-
-nav a:hover {
-  color: var(--encre);
-  border-bottom-color: var(--accent);
-}
-
-nav a[aria-current="page"] {
-  color: var(--encre);
-  font-weight: 600;
-  border-bottom-color: var(--accent);
-}
-
-
-/* =========================================================
-   10. TITRES
-   ========================================================= */
-
-h1,
-h2,
-h3 {
-  font-family: var(--police-titre);
-  line-height: 1.25;
-
-  /* Répartit les lignes de façon équilibrée dans un titre long */
-  text-wrap: balance;
-}
-
-/* Grand titre principal : il s'adapte à la largeur de l'écran */
-h1 {
-  font-size: clamp(1.9rem, 1.4rem + 2.2vw, 2.6rem);
-  font-weight: 750;
-  letter-spacing: -.025em;
-  line-height: 1.15;
-  margin: 2.4rem 0 0;
-}
-
-/* Titres de sections : un trait gris sur toute la largeur,
-   avec un court trait de couleur au début */
-h2 {
-  font-size: 1.35rem;
-  font-weight: 650;
-  letter-spacing: -.01em;
-  margin: 2.6rem 0 1rem;
-  padding-bottom: .4rem;
-  border-bottom: 1px solid var(--trait);
-
-  background: linear-gradient(var(--accent), var(--accent))
-              left bottom / 3rem 3px no-repeat;
-}
-
-h3 {
-  font-size: 1.1rem;
-  font-weight: 650;
-  margin: 1.6rem 0 .4rem;
-}
-
-
-/* =========================================================
-   11. LIENS
-   ========================================================= */
-
-a {
-  color: var(--accent);
-  text-underline-offset: .18em;
-  text-decoration-thickness: 1px;
-}
-
-a:hover {
-  text-decoration-thickness: 2px;
-}
-
-/* Contour visible quand on navigue au clavier */
-:focus-visible {
-  outline: 3px solid var(--accent);
-  outline-offset: 3px;
-  border-radius: var(--rayon);
-}
-
-
-/* =========================================================
-   12. SOUS-TITRES ET INFORMATIONS SECONDAIRES
-   ========================================================= */
-
-.sous-titre,
-.meta {
-  color: var(--doux);
-  margin: .4rem 0 0;
-}
-
-/* Le sous-titre est un peu plus grand : c'est la phrase
-   d'accroche sous ton nom */
-.sous-titre {
-  font-size: 1.15rem;
-  line-height: 1.5;
-}
-
-/* Texte "meta" plus petit (dates, lieux, durées…) */
-.meta {
-  font-family: var(--police-titre);
-  font-size: .85rem;
-}
-
-
-/* =========================================================
-   13. LISTES ET CITATIONS
-   ========================================================= */
-
-main ul,
-main ol {
-  padding-left: 1.3rem;
-}
-
-main li {
-  margin: .3rem 0;
-}
-
-main li::marker {
-  color: var(--doux);
-}
-
-blockquote {
-  margin: 1.5rem 0;
-  padding: .1rem 0 .1rem 1rem;
-  border-left: 3px solid var(--trait);
-  color: var(--doux);
-}
-
-hr {
-  border: 0;
-  border-top: 1px solid var(--trait);
-  margin: 2.2rem 0;
-}
-
-
-/* =========================================================
-   14. CARTES DE PROJETS
-   ---------------------------------------------------------
-   Chaque carte a sa propre couleur (--c), qui change de l'une
-   à l'autre : bleu, vert, violet, orange, puis on recommence.
-   Au survol (ou quand on arrive dessus au clavier), la carte
-   grossit légèrement, se teinte de sa couleur et projette
-   une ombre colorée.
-   Toute la carte est cliquable, pas seulement le titre.
-   ========================================================= */
-
-.carte {
-  /* Couleur de la carte (bleue par défaut) */
-  --c: var(--c1);
-
-  position: relative;    /* Nécessaire pour rendre toute la carte cliquable */
-  background: var(--surface);
-  border: 1px solid var(--trait);
-  border-left: 4px solid var(--c);
-  border-radius: var(--rayon);
-
-  padding: 1rem 1.2rem;
-  margin: 1.2rem 0;
-}
-
-/* Une couleur différente pour chaque carte, en boucle */
-article.carte:nth-of-type(4n + 2) { --c: var(--c2); }
-article.carte:nth-of-type(4n + 3) { --c: var(--c3); }
-article.carte:nth-of-type(4n + 4) { --c: var(--c4); }
-
-.carte h3 {
-  margin: 0 0 .25rem;
-}
-
-.carte h3 a {
-  color: var(--encre);
-  text-decoration: none;
-}
-
-/* Étend la zone de clic du titre à toute la carte */
-.carte h3 a::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-}
-
-.carte p {
-  margin: .3rem 0;
-}
-
-/* Pas de marge superflue en haut ou en bas de la carte */
-.carte > :first-child {
-  margin-top: 0;
-}
-
-.carte > :last-child {
-  margin-bottom: 0;
-}
-
-/* --- Effet au survol et au clavier --- */
-
-.carte:hover,
-.carte:focus-within {
-  z-index: 1;   /* La carte agrandie passe au-dessus de ses voisines */
-  border-color: var(--c);
-  background: color-mix(in srgb, var(--c) 8%, var(--surface));
-  box-shadow: 0 1rem 1.8rem -1rem color-mix(in srgb, var(--c) 60%, transparent);
-}
-
-.carte:hover h3 a,
-.carte:focus-within h3 a {
-  color: var(--c);
-  text-decoration: underline;
-  text-decoration-thickness: 2px;
-  text-underline-offset: .18em;
-}
-
-/* Animation : uniquement pour ceux qui n'ont pas désactivé
-   les animations dans leur système */
-@media (prefers-reduced-motion: no-preference) {
-  .carte {
-    transition: opacity .5s ease,
-                transform .22s ease,
-                box-shadow .22s ease,
-                background-color .22s ease,
-                border-color .22s ease;
-  }
-
-  .carte:hover,
-  .carte:focus-within {
-    transform: translateY(-4px) scale(1.025);   /* ← la taille du grossissement */
-  }
-}
-
-/* Contour de focus autour de toute la carte plutôt que
-   seulement autour du titre (navigateurs récents uniquement) */
-@supports selector(:has(a)) {
-  .carte h3 a:focus-visible {
-    outline: none;
-  }
-
-  .carte:has(h3 a:focus-visible) {
-    outline: 3px solid var(--c);
-    outline-offset: 3px;
-  }
-}
-
-
-/* =========================================================
-   14 bis. GALERIE DES PROJETS (page d'accueil)
-   ---------------------------------------------------------
-   .galerie-projets = la grille qui range les cartes
-   .image-projet    = l'image en haut d'une carte
-   .apparition      = la carte glisse et apparaît quand on
-                      fait défiler la page (le petit script de
-                      index.html ajoute la classe .visible)
-   ========================================================= */
-
-.galerie-projets {
-  display: grid;
-  /* Autant de colonnes que la largeur le permet (2 sur ordinateur,
-     1 sur téléphone) */
-  grid-template-columns: repeat(auto-fill, minmax(min(100%, 18rem), 1fr));
-  gap: 1.2rem;
-  margin: 1.2rem 0;
-}
-
-/* La grille gère déjà l'espace entre les cartes */
-.galerie-projets .carte {
-  margin: 0;
-}
-
-/* L'image touche les bords de la carte */
-.image-projet {
-  overflow: hidden;
-  margin: -1rem -1.2rem .9rem;
-  border-bottom: 1px solid var(--trait);
-}
-
-.image-projet img {
-  width: 100%;
-  aspect-ratio: 16 / 9;
-  object-fit: cover;   /* Recadre l'image sans la déformer */
-  margin: 0;
-  border: 0;
-  border-radius: 0;
-}
-
-/* Apparition au défilement : uniquement si JavaScript est actif et
-   si les animations ne sont pas désactivées. Sinon, les cartes sont
-   simplement visibles tout de suite. */
-@media (scripting: enabled) and (prefers-reduced-motion: no-preference) {
-  .apparition:not(.visible) {
-    opacity: 0;
-    transform: translateY(1.5rem);
-  }
-}
-
-/* L'image zoome doucement quand on survole la carte */
-@media (prefers-reduced-motion: no-preference) {
-  .image-projet img {
-    transition: transform .35s ease;
-  }
-
-  .carte:hover .image-projet img,
-  .carte:focus-within .image-projet img {
-    transform: scale(1.06);
-  }
-}
-
-
-/* =========================================================
-   15. LISTE DES COMPÉTENCES
-   ---------------------------------------------------------
-   Chaque étiquette reprend, en boucle, les couleurs des
-   projets : le liseré à gauche et le survol changent.
-   ========================================================= */
-
-.comp-liste {
-  font-family: var(--police-titre);
-  font-size: .9rem;
-  line-height: 2;   /* Laisse de l'air entre les lignes d'étiquettes */
-}
-
-.comp {
-  --c: var(--c1);
-
-  display: inline-block;
-  background: var(--surface);
-  border: 1px solid var(--trait);
-  border-left: 3px solid var(--c);
-  border-radius: var(--rayon);
-
-  padding: 0 .55rem;
-  margin: 0 .3rem 0 0;
-  line-height: 1.7;
-}
-
-.comp:nth-child(4n + 2) { --c: var(--c2); }
-.comp:nth-child(4n + 3) { --c: var(--c3); }
-.comp:nth-child(4n + 4) { --c: var(--c4); }
-
-.comp:hover {
-  background: color-mix(in srgb, var(--c) 12%, var(--surface));
-  border-color: var(--c);
-}
-
-
-/* =========================================================
-   16. TABLEAU
-   ---------------------------------------------------------
-   Entoure ton <table> d'un <div class="defile"> pour qu'il
-   puisse défiler sur petit écran sans casser la page.
-   ========================================================= */
-
-.defile {
-  overflow-x: auto;
-  margin: 1.2rem 0;
-  border: 1px solid var(--trait);
-  border-radius: var(--rayon);
-}
-
-/* Contour visible quand le tableau défile au clavier
-   (ajoute tabindex="0" sur le <div class="defile">) */
-.defile:focus-visible {
-  outline-offset: 0;
-}
-
-table {
-  border-collapse: collapse;
-  width: 100%;
-  font-size: .9rem;
-  font-variant-numeric: tabular-nums;   /* Chiffres alignés */
-}
-
-caption {
-  caption-side: top;
-  text-align: left;
-  padding: .6rem .7rem;
-  font: 600 .9rem var(--police-titre);
-  color: var(--doux);
-}
-
-th,
-td {
-  padding: .5rem .7rem;
-  text-align: left;
-  vertical-align: top;
-  border: 1px solid var(--trait);
-}
-
-/* Le tableau est déjà encadré par .defile : on retire
-   la bordure extérieure pour éviter un double trait */
-tr > :first-child {
-  border-left: 0;
-}
-
-tr > :last-child {
-  border-right: 0;
-}
-
-thead tr:first-child > * {
-  border-top: 0;
-}
-
-tbody tr:last-child > * {
-  border-bottom: 0;
-}
-
-th {
-  background: var(--surface-2);
-  font-family: var(--police-titre);
-  font-weight: 650;
-}
-
-/* Une ligne sur deux légèrement teintée : plus facile à suivre */
-tbody tr:nth-child(even) td {
-  background: color-mix(in srgb, var(--surface-2) 45%, transparent);
-}
-
-/* La ligne survolée se teinte de la couleur d'accent */
-tbody tr:hover > * {
-  background: color-mix(in srgb, var(--accent) 10%, var(--surface));
-}
-
-/* Cases centrées (croix des compétences) */
-td.case {
-  text-align: center;
-  font-weight: 700;
-  min-width: 2.4rem;
-}
-
-td.case a {
-  display: block;   /* Toute la case est cliquable */
-  text-decoration: none;
-}
-
-td.case a:hover {
-  text-decoration: underline;
-}
-
-
-/* =========================================================
-   17. IMAGES
-   ========================================================= */
-
-img {
-  max-width: 100%;
-  height: auto;
-  display: block;                /* Supprime l'espace fantôme sous l'image */
-  margin: 1.2rem 0;
-  border: 1px solid var(--trait);
-  border-radius: var(--rayon);
-}
-
-/* Une image placée dans un paragraphe reste dans le texte */
-p img {
-  display: inline;
-  margin: 0;
-}
-
-figure {
-  margin: 1.5rem 0;
-}
-
-figure img {
-  margin: 0;
-}
-
-figcaption {
-  margin-top: .5rem;
-  font: .85rem/1.4 var(--police-titre);
-  color: var(--doux);
-}
-
-
-/* =========================================================
-   18. CODE
-   ========================================================= */
-
-/* Petit morceau de code dans une phrase */
-code {
-  font-family: var(--police-code);
-  font-size: .88em;
-  background: var(--surface-2);
-  padding: .1rem .3rem;
-  border-radius: var(--rayon);
-}
-
-/* Bloc de code sur plusieurs lignes : <pre><code>…</code></pre> */
-pre {
-  background: var(--surface-2);
-  border: 1px solid var(--trait);
-  border-radius: var(--rayon);
-  padding: .9rem 1rem;
-  margin: 1.2rem 0;
-  overflow-x: auto;
-  font-size: .88rem;
-  line-height: 1.5;
-}
-
-/* Dans un bloc, le fond est déjà donné par <pre> */
-pre code {
-  background: none;
-  padding: 0;
-  font-size: inherit;
-}
-
-
-/* =========================================================
-   19. FOOTER / BAS DE PAGE
-   ========================================================= */
-
-footer {
-  margin-top: 4rem;
-  padding-top: 1.2rem;
-  padding-bottom: max(2rem, env(safe-area-inset-bottom));
-
-  font: .85rem/1.5 var(--police-titre);
-  color: var(--doux);
-  border-top: 1px solid var(--trait);
-}
-
-/* Les liens du footer restent discrets */
-footer a {
-  color: inherit;
-}
-
-
-/* =========================================================
-   20. VERSION MOBILE
-   ---------------------------------------------------------
-   S'active quand l'écran fait moins de 520 pixels.
-   ========================================================= */
-
-@media (max-width: 520px) {
-
-  body {
-    font-size: 1rem;   /* = 16 px */
-  }
-
-  h2 {
-    margin-top: 2.2rem;
-  }
-
-  .carte {
-    padding: .85rem 1rem;
-  }
-
-  .image-projet {
-    margin: -.85rem -1rem .9rem;
-  }
-}
-
-
-/* =========================================================
-   21. IMPRESSION
-   ---------------------------------------------------------
-   Utile si un recruteur imprime ou enregistre ton portfolio
-   en PDF : fond blanc, menu masqué, adresse des liens visible.
-   ========================================================= */
-
-@media print {
-
-  :root {
-    --encre: #000;
-    --doux: #333;
-    --accent: #000;
-    --fond: #fff;
-    --surface: #fff;
-    --surface-2: #f2f2f2;
-    --trait: #999;
-  }
-
-  body {
-    font-size: 11pt;
-  }
-
-  nav,
-  .evitement {
-    display: none;
-  }
-
-  /* Affiche l'adresse après chaque lien externe */
-  main a[href^="http"]::after {
-    content: " (" attr(href) ")";
-    font-size: .85em;
-    color: var(--doux);
-    word-break: break-all;
-  }
-
-  /* Évite de couper une carte ou une image entre deux pages */
-  .carte,
-  img,
-  pre,
-  tr {
-    break-inside: avoid;
-  }
-}
+---
+---
+<!DOCTYPE html>
+<html lang="{{ site.lang | default: 'fr' }}">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{{ site.title }}</title>
+  <meta name="description" content="{{ site.description }}">
+
+  <!-- Connexion au CSS -->
+  <link rel="stylesheet" href="{{ '/css/style.css' | relative_url }}">
+</head>
+<body>
+  <a class="evitement" href="#contenu">Aller au contenu</a>
+
+  <header>
+    <p class="site"><a href="{{ '/' | relative_url }}">{{ site.title }}</a></p>
+    <nav aria-label="Navigation principale">
+      <ul>
+        <li><a href="{{ '/' | relative_url }}" aria-current="page">Accueil</a></li>
+        <li><a href="{{ '/#projets' | relative_url }}">Projets</a></li>
+        <li><a href="{{ '/#competences' | relative_url }}">Compétences</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main id="contenu">
+
+    <!-- ========================= -->
+    <!-- TITRE ET PRÉSENTATION -->
+    <!-- ========================= -->
+
+    <h1>{{ site.title }}</h1>
+
+    <p class="sous-titre">{{ site.description }}</p>
+
+    <h2>Profil</h2>
+
+    <p>
+      Je suis en BTS SIO spécialité SISR et je suis à la recherche d'une
+      alternance en informatique. Mon but est de faire un master en
+      ingénierie de l'informatique. Pour le moment, je suis en capacité
+      de créer un site et j'ai quelques connaissances en parc réseau.
+    </p>
+
+
+    <!-- ========================= -->
+    <!-- LISTE DES PROJETS -->
+    <!-- ========================= -->
+
+    {% assign projets = site.projets | sort: "date" | reverse %}
+
+    <h2 id="projets">Projets JV ({{ projets.size }})</h2>
+
+    <div class="galerie-projets">
+
+      {% for p in projets %}
+
+      <article class="carte apparition">
+
+        <!-- Image affichée dans le menu principal -->
+        {% if p.image_menu %}
+          <div class="image-projet">
+            <img
+              src="{{ p.image_menu | relative_url }}"
+              alt="Image du projet : {{ p.title }}"
+              loading="lazy"
+            >
+          </div>
+        {% endif %}
+
+        <!-- Titre du projet : le lien reste inchangé -->
+        <h3>
+          <a href="{{ p.url | relative_url }}">{{ p.title }}</a>
+        </h3>
+
+        <!-- Résumé du projet -->
+        <p>{{ p.resume }}</p>
+
+        <!-- Date et cadre du projet -->
+        <p class="meta">
+          {{ p.date | date: "%m/%Y" }} · {{ p.cadre }}
+        </p>
+
+      </article>
+
+      {% endfor %}
+
+    </div>
+
+
+    <!-- ========================= -->
+    <!-- TABLEAU DES COMPÉTENCES -->
+    <!-- ========================= -->
+
+    <h2 id="competences">Compétences du bloc 1</h2>
+
+    <p>
+      Chaque croix renvoie au projet qui la prouve.
+      Le tableau se remplit automatiquement à chaque projet ajouté.
+    </p>
+
+    <div class="defile" tabindex="0">
+
+      <table>
+
+        <thead>
+          <tr>
+            <th scope="col">Compétence</th>
+
+            {% for p in projets %}
+              <th scope="col">
+                <a href="{{ p.url | relative_url }}">P{{ forloop.rindex }}</a>
+              </th>
+            {% endfor %}
+
+          </tr>
+        </thead>
+
+        <tbody>
+
+          {% for c in site.data.competences %}
+
+            <tr>
+
+              <th scope="row">{{ c.libelle }}</th>
+
+              {% for p in projets %}
+
+                <td class="case">
+
+                  {% if p.competences contains c.code %}
+                    <a
+                      href="{{ p.url | relative_url }}"
+                      aria-label="{{ c.libelle }} : {{ p.title }}"
+                    >X</a>
+                  {% endif %}
+
+                </td>
+
+              {% endfor %}
+
+            </tr>
+
+          {% endfor %}
+
+        </tbody>
+
+      </table>
+
+    </div>
+
+  </main>
+
+  <footer>
+    <p>{{ site.title }} · BTS SIO SISR</p>
+  </footer>
+
+
+  <!-- ========================= -->
+  <!-- ANIMATION DES CARTES -->
+  <!-- Apparition lors du défilement -->
+  <!-- ========================= -->
+
+  <script>
+  document.addEventListener("DOMContentLoaded", () => {
+
+    const cartes = document.querySelectorAll(
+      ".galerie-projets .apparition"
+    );
+
+    // Si le navigateur ne prend pas en charge l'observateur,
+    // toutes les cartes restent visibles.
+    if (!("IntersectionObserver" in window)) {
+      cartes.forEach(carte => carte.classList.add("visible"));
+      return;
+    }
+
+    // Détecte les cartes qui entrent dans la zone visible.
+    const observateur = new IntersectionObserver(
+      (entrees, observer) => {
+
+        entrees.forEach(entree => {
+
+          if (entree.isIntersecting) {
+            entree.target.classList.add("visible");
+            observer.unobserve(entree.target);
+          }
+
+        });
+
+      },
+      {
+        threshold: 0.15
+      }
+    );
+
+    // Observe chaque carte de projet.
+    cartes.forEach(carte => observateur.observe(carte));
+
+  });
+  </script>
+
+</body>
+</html>
