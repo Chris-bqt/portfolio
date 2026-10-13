@@ -570,20 +570,38 @@ article.carte:nth-of-type(4n + 4) { --c: var(--c4); }
   margin: 0;
 }
 
-/* L'image touche les bords de la carte */
+/* L'image touche les bords de la carte et reste centrée dans son cadre */
 .image-projet {
+  display: flex;
+  align-items: center;       /* Centre l'image verticalement */
+  justify-content: center;   /* Centre l'image horizontalement */
   overflow: hidden;
+  aspect-ratio: 16 / 9;      /* Tous les cadres ont la même forme */
   margin: -1rem -1.2rem .9rem;
+  background: var(--surface-2);
   border-bottom: 1px solid var(--trait);
 }
 
+/* Par défaut : l'image est TOUJOURS entièrement visible, quelle que
+   soit sa taille ou sa forme. Elle est agrandie ou réduite pour entrer
+   dans le cadre, sans déformation, et centrée. Si elle n'a pas la même
+   forme que le cadre, le fond du cadre apparaît sur les côtés. */
 .image-projet img {
   width: 100%;
-  aspect-ratio: 16 / 9;
-  object-fit: cover;   /* Recadre l'image sans la déformer */
+  height: 100%;
+  object-fit: contain;
+  object-position: center;
   margin: 0;
   border: 0;
   border-radius: 0;
+}
+
+/* Variante : l'image remplit tout le cadre, quitte à être recadrée.
+   S'active avec  image_ajustement: cover  dans le projet.
+   image_position (top, bottom, center 20%…) choisit la partie gardée. */
+.image-projet[data-ajustement="cover"] img {
+  object-fit: cover;
+  object-position: var(--pos, center);
 }
 
 /* Apparition au défilement : uniquement si JavaScript est actif et
@@ -637,7 +655,7 @@ article.carte:nth-of-type(4n + 4) { --c: var(--c4); }
 
   .carte:hover .image-projet img,
   .carte:focus-within .image-projet img {
-    transform: scale(1.06);
+    transform: scale(1.04);
   }
 }
 
