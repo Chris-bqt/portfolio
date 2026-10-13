@@ -1,27 +1,26 @@
 /* =========================================================
    1. COULEURS DU SITE
    ---------------------------------------------------------
+   Le site a un seul thème : bleu nuit, quel que soit l'appareil.
    Modifie ces valeurs pour changer l'apparence générale.
-   Le mode sombre est géré automatiquement plus bas : il
-   suit le réglage de l'ordinateur ou du téléphone.
    ========================================================= */
 
 :root {
-  --encre: #1b2531;     /* Texte principal */
-  --doux: #566270;      /* Texte secondaire */
-  --accent: #0a5c8c;    /* Liens et éléments importants */
-  --fond: #f9fafb;      /* Fond de la page */
-  --surface: #ffffff;   /* Fond des cartes, étiquettes, cases */
-  --surface-2: #eef2f5; /* Fond des en-têtes de tableau et du code */
-  --trait: #d3dae1;     /* Bordures et séparations */
+  --encre: #e6ecf5;     /* Texte principal (blanc bleuté) */
+  --doux: #9fb0c7;      /* Texte secondaire */
+  --accent: #6cb8f0;    /* Liens et éléments importants (bleu clair) */
+  --fond: #0b1220;      /* Fond de la page (bleu nuit) */
+  --surface: #131c2f;   /* Fond des cartes, étiquettes, cases */
+  --surface-2: #1b2742; /* Fond des en-têtes de tableau et du code */
+  --trait: #28365a;     /* Bordures et séparations */
 
   /* Les 4 couleurs des projets : la 1re carte est bleue, la 2e
      verte, la 3e violette, la 4e orange, puis ça recommence.
      Change ces valeurs pour changer les couleurs des cartes. */
-  --c1: #0a5c8c;   /* Bleu */
-  --c2: #0f766e;   /* Vert sapin */
-  --c3: #6d4bb5;   /* Violet */
-  --c4: #b45309;   /* Orange brûlé */
+  --c1: #6cb8f0;   /* Bleu ciel */
+  --c2: #3fd0bd;   /* Turquoise */
+  --c3: #a78bfa;   /* Violet */
+  --c4: #f5a962;   /* Orange doux */
 
   /* Polices : on utilise celles déjà installées sur l'appareil,
      le site se charge donc instantanément. */
@@ -34,40 +33,14 @@
   /* Un seul arrondi, très léger, pour tout le site */
   --rayon: 3px;
 
-  /* Indique au navigateur que le site existe en clair et en sombre
+  /* Indique au navigateur que le site est sombre
      (barres de défilement, champs de formulaire, etc.) */
-  color-scheme: light dark;
+  color-scheme: dark;
 }
 
 
 /* =========================================================
-   2. MODE SOMBRE
-   ---------------------------------------------------------
-   Remplace uniquement les couleurs : tout le reste du site
-   s'adapte tout seul. Les couleurs des cartes sont éclaircies
-   pour rester lisibles sur fond foncé.
-   ========================================================= */
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --encre: #e4e9ee;
-    --doux: #9aa6b3;
-    --accent: #6db6e8;
-    --fond: #11171d;
-    --surface: #18202a;
-    --surface-2: #212b36;
-    --trait: #2d3946;
-
-    --c1: #6db6e8;
-    --c2: #3fc7b5;
-    --c3: #a78bfa;
-    --c4: #f0a35c;
-  }
-}
-
-
-/* =========================================================
-   3. RÈGLES GÉNÉRALES
+   2. RÈGLES GÉNÉRALES
    ========================================================= */
 
 /* Empêche les éléments de dépasser leur largeur prévue */
@@ -97,7 +70,7 @@ html {
 
 
 /* =========================================================
-   4. PAGE ENTIÈRE
+   3. PAGE ENTIÈRE
    ========================================================= */
 
 body {
@@ -129,7 +102,7 @@ li {
 
 
 /* =========================================================
-   5. LARGEUR PRINCIPALE DU SITE
+   4. LARGEUR PRINCIPALE DU SITE
    ---------------------------------------------------------
    header = haut de page
    main   = contenu principal
@@ -148,7 +121,7 @@ footer {
 
 
 /* =========================================================
-   6. LIEN D'ÉVITEMENT (accessibilité)
+   5. LIEN D'ÉVITEMENT (accessibilité)
    ---------------------------------------------------------
    Invisible tant qu'on n'appuie pas sur la touche Tab.
    Permet de sauter le menu pour aller au contenu.
@@ -172,7 +145,7 @@ footer {
 
 
 /* =========================================================
-   7. EN-TÊTE / HEADER
+   6. EN-TÊTE / HEADER
    ========================================================= */
 
 header {
@@ -190,7 +163,7 @@ header {
 
 
 /* =========================================================
-   8. NOM / TITRE DU SITE
+   7. NOM / TITRE DU SITE
    ========================================================= */
 
 .site {
@@ -206,7 +179,7 @@ header {
 
 
 /* =========================================================
-   9. MENU DE NAVIGATION
+   8. MENU DE NAVIGATION
    ---------------------------------------------------------
    La page en cours est soulignée grâce à
    aria-current="page" (déjà géré dans le layout).
@@ -248,7 +221,7 @@ nav a[aria-current="page"] {
 
 
 /* =========================================================
-   10. TITRES
+   9. TITRES
    ========================================================= */
 
 h1,
@@ -292,7 +265,7 @@ h3 {
 
 
 /* =========================================================
-   11. LIENS
+   10. LIENS
    ========================================================= */
 
 a {
@@ -314,7 +287,7 @@ a:hover {
 
 
 /* =========================================================
-   12. SOUS-TITRES ET INFORMATIONS SECONDAIRES
+   11. SOUS-TITRES ET INFORMATIONS SECONDAIRES
    ========================================================= */
 
 .sous-titre,
@@ -338,7 +311,7 @@ a:hover {
 
 
 /* =========================================================
-   13. LISTES ET CITATIONS
+   12. LISTES ET CITATIONS
    ========================================================= */
 
 main ul,
@@ -369,7 +342,7 @@ hr {
 
 
 /* =========================================================
-   14. CARTES DE PROJETS
+   13. CARTES DE PROJETS
    ---------------------------------------------------------
    Chaque carte a sa propre couleur (--c), qui change de l'une
    à l'autre : bleu, vert, violet, orange, puis on recommence.
@@ -477,7 +450,7 @@ article.carte:nth-of-type(4n + 4) { --c: var(--c4); }
 
 
 /* =========================================================
-   14 bis. GALERIE DES PROJETS (page d'accueil)
+   13 bis. GALERIE DES PROJETS (page d'accueil)
    ---------------------------------------------------------
    .galerie-projets = la grille qui range les cartes
    .image-projet    = l'image en haut d'une carte
@@ -540,7 +513,7 @@ article.carte:nth-of-type(4n + 4) { --c: var(--c4); }
 
 
 /* =========================================================
-   15. LISTE DES COMPÉTENCES
+   14. LISTE DES COMPÉTENCES
    ---------------------------------------------------------
    Chaque étiquette reprend, en boucle, les couleurs des
    projets : le liseré à gauche et le survol changent.
@@ -577,7 +550,7 @@ article.carte:nth-of-type(4n + 4) { --c: var(--c4); }
 
 
 /* =========================================================
-   16. TABLEAU
+   15. TABLEAU
    ---------------------------------------------------------
    Entoure ton <table> d'un <div class="defile"> pour qu'il
    puisse défiler sur petit écran sans casser la page.
@@ -671,7 +644,7 @@ td.case a:hover {
 
 
 /* =========================================================
-   17. IMAGES
+   16. IMAGES
    ========================================================= */
 
 img {
@@ -705,7 +678,7 @@ figcaption {
 
 
 /* =========================================================
-   18. CODE
+   17. CODE
    ========================================================= */
 
 /* Petit morceau de code dans une phrase */
@@ -738,7 +711,7 @@ pre code {
 
 
 /* =========================================================
-   19. FOOTER / BAS DE PAGE
+   18. FOOTER / BAS DE PAGE
    ========================================================= */
 
 footer {
@@ -758,7 +731,7 @@ footer a {
 
 
 /* =========================================================
-   20. VERSION MOBILE
+   19. VERSION MOBILE
    ---------------------------------------------------------
    S'active quand l'écran fait moins de 520 pixels.
    ========================================================= */
@@ -784,7 +757,7 @@ footer a {
 
 
 /* =========================================================
-   21. IMPRESSION
+   20. IMPRESSION
    ---------------------------------------------------------
    Utile si un recruteur imprime ou enregistre ton portfolio
    en PDF : fond blanc, menu masqué, adresse des liens visible.
