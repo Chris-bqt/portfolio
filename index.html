@@ -51,7 +51,7 @@
 
     {% assign projets = site.projets | sort: "date" | reverse %}
 
-    <h2 id="projets">Projets ({{ projets.size }})</h2>
+    <h2 id="projets">Projets JV ({{ projets.size }})</h2>
 
     <div class="galerie-projets">
 
@@ -181,13 +181,22 @@
     const observateur = new IntersectionObserver(
       (entrees, observer) => {
 
-        entrees.forEach(entree => {
+        // Cartes qui apparaissent en même temps, rangées dans
+        // l'ordre de lecture (de haut en bas, de gauche à droite)
+        const arrivantes = entrees
+          .filter(entree => entree.isIntersecting)
+          .sort((a, b) =>
+            a.boundingClientRect.top - b.boundingClientRect.top ||
+            a.boundingClientRect.left - b.boundingClientRect.left
+          );
 
-          if (entree.isIntersecting) {
-            entree.target.classList.add("visible");
-            observer.unobserve(entree.target);
-          }
-
+        // Chaque carte attend un peu plus que la précédente.
+        // Pour aller plus vite ou plus lentement, change 0.15
+        // (en secondes) : 0.08 = rapide, 0.3 = lent.
+        arrivantes.forEach((entree, rang) => {
+          entree.target.style.setProperty("--delai", (rang * 0.15) + "s");
+          entree.target.classList.add("visible");
+          observer.unobserve(entree.target);
         });
 
       },
