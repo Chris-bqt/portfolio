@@ -181,8 +181,13 @@ header {
 /* =========================================================
    8. MENU DE NAVIGATION
    ---------------------------------------------------------
-   La page en cours est soulignée grâce à
-   aria-current="page" (déjà géré dans le layout).
+   Grand écran : le menu est collé en haut à gauche de la
+   fenêtre et reste là quand on descend dans la page. Une
+   barre coulisse devant la rubrique où tu te trouves.
+   Petit écran : l'en-tête reste collé en haut et la rubrique
+   en cours est soulignée.
+   La rubrique en cours est repérée par le lien qui porte
+   aria-current (le script de index.html le déplace).
    ========================================================= */
 
 nav ul {
@@ -206,6 +211,7 @@ nav a {
   display: inline-block;
   padding: .25rem 0;
   border-bottom: 2px solid transparent;
+  transition: color .2s ease;
 }
 
 nav a:hover {
@@ -213,10 +219,101 @@ nav a:hover {
   border-bottom-color: var(--accent);
 }
 
-nav a[aria-current="page"] {
+/* Rubrique en cours */
+nav a[aria-current] {
   color: var(--encre);
   font-weight: 600;
   border-bottom-color: var(--accent);
+}
+
+
+/* --- Petit écran : l'en-tête reste collé en haut --- */
+
+@media not all and (min-width: 68rem) {
+
+  /* Les titres ne se cachent pas derrière l'en-tête collé */
+  html {
+    scroll-padding-top: 5.5rem;
+  }
+
+  header {
+    position: sticky;
+    top: 0;
+    z-index: 20;
+
+    /* Occupe toute la largeur, mais le contenu reste aligné
+       sur la colonne de 44rem */
+    max-width: none;
+    margin-inline: 0;
+    padding: .7rem max(1rem, calc((100% - 44rem) / 2 + 1rem));
+
+    /* Fond légèrement transparent et flouté */
+    background: color-mix(in srgb, var(--fond) 92%, transparent);
+    -webkit-backdrop-filter: blur(8px);
+    backdrop-filter: blur(8px);
+    border-bottom: 1px solid var(--trait);
+  }
+}
+
+
+/* --- Grand écran : menu vertical collé en haut à gauche --- */
+
+@media (min-width: 68rem) {
+
+  nav {
+    position: fixed;       /* Reste à sa place quand on fait défiler */
+    top: 1.6rem;
+    left: max(1.5rem, env(safe-area-inset-left));
+    z-index: 20;
+  }
+
+  nav ul {
+    position: relative;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    gap: 0;
+    border-left: 3px solid var(--trait);   /* Le « rail » de la barre */
+  }
+
+  /* Chaque rubrique a la même hauteur : la barre en dépend */
+  nav li {
+    height: 2.2rem;
+  }
+
+  nav a {
+    display: block;
+    padding: 0 1rem 0 .9rem;
+    line-height: 2.2rem;
+    white-space: nowrap;
+    border-bottom: 0;
+  }
+
+  /* La barre qui descend d'une rubrique à l'autre.
+     --rang vaut 0 pour Accueil, 1 pour Projets, 2 pour Compétences
+     (le script le met à jour pendant que tu fais défiler). */
+  nav.suivi ul::before {
+    content: "";
+    position: absolute;
+    left: -3px;
+    top: 0;
+    width: 3px;
+    height: 2.2rem;
+    background: var(--accent);
+    transform: translateY(calc(var(--rang, 0) * 2.2rem));
+  }
+
+  /* Sur les pages sans suivi (pages de projet), la rubrique
+     en cours est simplement marquée sur le rail */
+  nav:not(.suivi) a[aria-current] {
+    box-shadow: -3px 0 0 var(--accent);
+  }
+}
+
+/* Glissement de la barre (sauf si les animations sont désactivées) */
+@media (min-width: 68rem) and (prefers-reduced-motion: no-preference) {
+  nav.suivi ul::before {
+    transition: transform .45s cubic-bezier(.34, 1.3, .64, 1);
+  }
 }
 
 
