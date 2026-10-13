@@ -22,7 +22,7 @@
   --c3: #a78bfa;   /* Violet */
   --c4: #f5a962;   /* Orange doux */
 
-  /* Polices : on utilise celles déjà installées sur l'appareil,
+  /* Polices : on utilise celles déjà installées sur l'appareil.,
      le site se charge donc instantanément. */
   --police-texte: Charter, "Iowan Old Style", "Palatino Linotype",
                   Georgia, "Times New Roman", serif;
