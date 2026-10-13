@@ -9,16 +9,37 @@ layout: default
 <h2>Profil</h2>
 <p>Je suis en BTS SIO spécialité SISR et je suis à la recherche d'une alternance en informatique. Mon but est de faire un master ingiéneurie de l'informatique. Pour le moment je suis en capacité de créer un site et j'ai quelques conaissances en parc réseau. </p>
 
+
 {% assign projets = site.projets | sort: "date" | reverse %}
 
-<h2 id="projets">Projets ({{ projets.size }})</h2>
-{% for p in projets %}
-<article class="carte">
-  <h3><a href="{{ p.url | relative_url }}">{{ p.title }}</a></h3>
-  <p>{{ p.resume }}</p>
-  <p class="meta">{{ p.date | date: "%m/%Y" }} · {{ p.cadre }}</p>
-</article>
-{% endfor %}
+<h2 id="projets">Projets JV ({{ projets.size }})</h2>
+
+<div class="galerie-projets">
+  {% for p in projets %}
+  <article class="carte apparition">
+
+    <div class="image-projet">
+      <img
+        src="{{ p.image | relative_url }}"
+        alt="Image du projet : {{ p.title }}"
+        loading="lazy"
+      >
+    </div>
+
+    <h3>
+      <a href="{{ p.url | relative_url }}">{{ p.title }}</a>
+    </h3>
+
+    <p>{{ p.resume }}</p>
+
+    <p class="meta">
+      {{ p.date | date: "%m/%Y" }} · {{ p.cadre }}
+    </p>
+
+  </article>
+  {% endfor %}
+</div>
+
 
 <h2 id="competences">Compétences du bloc 1</h2>
 <p>Chaque croix renvoie au projet qui la prouve. Le tableau se remplit tout seul à chaque projet ajouté.</p>
