@@ -55,3 +55,39 @@ layout: default
   </tbody>
 </table>
 </div>
+
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+  const cartes = document.querySelectorAll(
+    ".galerie-projets .apparition"
+  );
+
+  /* Afficher les cartes si le navigateur ne gère pas l'observation */
+  if (!("IntersectionObserver" in window)) {
+    cartes.forEach(carte => {
+      carte.classList.add("visible");
+    });
+    return;
+  }
+
+  /* Détecter l'arrivée des cartes à l'écran */
+  const observateur = new IntersectionObserver(
+    (entrees, observer) => {
+      entrees.forEach(entree => {
+        if (entree.isIntersecting) {
+          entree.target.classList.add("visible");
+          observer.unobserve(entree.target);
+        }
+      });
+    },
+    {
+      threshold: 0.15
+    }
+  );
+
+  /* Surveiller chaque carte */
+  cartes.forEach(carte => {
+    observateur.observe(carte);
+  });
+});
+</script>
