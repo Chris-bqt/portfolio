@@ -61,7 +61,11 @@
 
         <!-- Image affichée dans le menu principal -->
         {% if p.image_menu %}
-          <div class="image-projet">
+          <div
+            class="image-projet"
+            style="--pos: {{ p.image_position | default: 'center' | escape }};"
+            {% if p.image_ajustement == 'cover' %}data-ajustement="cover"{% endif %}
+          >
             <img
               src="{{ p.image_menu | relative_url }}"
               alt="Image du projet : {{ p.title }}"
