@@ -7,21 +7,21 @@
    ========================================================= */
 
 :root {
-  --encre: #f3efff;     /* Texte principal */
-  --doux: #aaa3c7;      /* Texte secondaire */
-  --accent: #65f3d1;    /* Liens et éléments importants */
-  --fond: #0c1020;      /* Fond de la page */
-  --surface: #151a2e;   /* Fond des cartes, étiquettes, cases */
-  --surface-2: #202542; /* Fond des en-têtes de tableau et du code */
-  --trait: #343956;     /* Bordures et séparations */
+  --encre: #1b2531;     /* Texte principal */
+  --doux: #566270;      /* Texte secondaire */
+  --accent: #0a5c8c;    /* Liens et éléments importants */
+  --fond: #f9fafb;      /* Fond de la page */
+  --surface: #ffffff;   /* Fond des cartes, étiquettes, cases */
+  --surface-2: #eef2f5; /* Fond des en-têtes de tableau et du code */
+  --trait: #d3dae1;     /* Bordures et séparations */
 
   /* Les 4 couleurs des projets : la 1re carte est bleue, la 2e
      verte, la 3e violette, la 4e orange, puis ça recommence.
      Change ces valeurs pour changer les couleurs des cartes. */
-  --c1: #65f3d1;   /* Bleu */
-  --c2: #ff6bb5;   /* Vert sapin */
-  --c3: #a995ff;   /* Violet */
-  --c4: #ffb86b;   /* Orange brûlé */
+  --c1: #0a5c8c;   /* Bleu */
+  --c2: #0f766e;   /* Vert sapin */
+  --c3: #6d4bb5;   /* Violet */
+  --c4: #b45309;   /* Orange brûlé */
 
   /* Polices : on utilise celles déjà installées sur l'appareil,
      le site se charge donc instantanément. */
@@ -36,12 +36,34 @@
 
   /* Indique au navigateur que le site existe en clair et en sombre
      (barres de défilement, champs de formulaire, etc.) */
-  color-scheme: dark;
+  color-scheme: light dark;
 }
 
 
-/* Le mode sombre automatique a été retiré : la palette bleu nuit
-   définie dans :root reste identique sur tous les appareils. */
+/* =========================================================
+   2. MODE SOMBRE
+   ---------------------------------------------------------
+   Remplace uniquement les couleurs : tout le reste du site
+   s'adapte tout seul. Les couleurs des cartes sont éclaircies
+   pour rester lisibles sur fond foncé.
+   ========================================================= */
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --encre: #e4e9ee;
+    --doux: #9aa6b3;
+    --accent: #6db6e8;
+    --fond: #11171d;
+    --surface: #18202a;
+    --surface-2: #212b36;
+    --trait: #2d3946;
+
+    --c1: #6db6e8;
+    --c2: #3fc7b5;
+    --c3: #a78bfa;
+    --c4: #f0a35c;
+  }
+}
 
 
 /* =========================================================
@@ -427,7 +449,8 @@ article.carte:nth-of-type(4n + 4) { --c: var(--c4); }
    les animations dans leur système */
 @media (prefers-reduced-motion: no-preference) {
   .carte {
-    transition: transform .22s ease,
+    transition: opacity .5s ease,
+                transform .22s ease,
                 box-shadow .22s ease,
                 background-color .22s ease,
                 border-color .22s ease;
@@ -449,6 +472,69 @@ article.carte:nth-of-type(4n + 4) { --c: var(--c4); }
   .carte:has(h3 a:focus-visible) {
     outline: 3px solid var(--c);
     outline-offset: 3px;
+  }
+}
+
+
+/* =========================================================
+   14 bis. GALERIE DES PROJETS (page d'accueil)
+   ---------------------------------------------------------
+   .galerie-projets = la grille qui range les cartes
+   .image-projet    = l'image en haut d'une carte
+   .apparition      = la carte glisse et apparaît quand on
+                      fait défiler la page (le petit script de
+                      index.html ajoute la classe .visible)
+   ========================================================= */
+
+.galerie-projets {
+  display: grid;
+  /* Autant de colonnes que la largeur le permet (2 sur ordinateur,
+     1 sur téléphone) */
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 18rem), 1fr));
+  gap: 1.2rem;
+  margin: 1.2rem 0;
+}
+
+/* La grille gère déjà l'espace entre les cartes */
+.galerie-projets .carte {
+  margin: 0;
+}
+
+/* L'image touche les bords de la carte */
+.image-projet {
+  overflow: hidden;
+  margin: -1rem -1.2rem .9rem;
+  border-bottom: 1px solid var(--trait);
+}
+
+.image-projet img {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  object-fit: cover;   /* Recadre l'image sans la déformer */
+  margin: 0;
+  border: 0;
+  border-radius: 0;
+}
+
+/* Apparition au défilement : uniquement si JavaScript est actif et
+   si les animations ne sont pas désactivées. Sinon, les cartes sont
+   simplement visibles tout de suite. */
+@media (scripting: enabled) and (prefers-reduced-motion: no-preference) {
+  .apparition:not(.visible) {
+    opacity: 0;
+    transform: translateY(1.5rem);
+  }
+}
+
+/* L'image zoome doucement quand on survole la carte */
+@media (prefers-reduced-motion: no-preference) {
+  .image-projet img {
+    transition: transform .35s ease;
+  }
+
+  .carte:hover .image-projet img,
+  .carte:focus-within .image-projet img {
+    transform: scale(1.06);
   }
 }
 
@@ -690,6 +776,10 @@ footer a {
   .carte {
     padding: .85rem 1rem;
   }
+
+  .image-projet {
+    margin: -.85rem -1rem .9rem;
+  }
 }
 
 
@@ -737,186 +827,3 @@ footer a {
     break-inside: avoid;
   }
 }
-
-
-/* ==========================================================
-   17. TABLEAU DES COMPÉTENCES — effets au survol
-   Ces règles ciblent le tableau HTML existant sans modifier
-   son contenu ni le remplissage automatique des croix.
-   ========================================================== */
-
-/* Transition douce pour les cellules du tableau */
-table th,
-table td {
-  transition:
-    background-color 220ms ease,
-    color 220ms ease,
-    border-color 220ms ease,
-    box-shadow 220ms ease;
-}
-
-/* En-têtes P1 / P2 et titre du tableau */
-table thead th {
-  background: var(--surface-2);
-}
-
-/* La ligne entière s'éclaircit légèrement au passage de la souris */
-table tbody tr:hover td {
-  background-color: #292f50;
-  border-color: #4a5278;
-}
-
-/* Les cases de croix ressortent un peu plus au survol */
-table td.case:hover {
-  background-color: #303858;
-  box-shadow: inset 0 0 0 1px var(--accent);
-}
-
-/* La croix ou le lien de projet devient plus lumineux */
-table td.case a {
-  display: inline-block;
-  transition:
-    color 200ms ease,
-    transform 200ms ease,
-    text-shadow 200ms ease;
-}
-
-table td.case a:hover,
-table td.case a:focus-visible {
-  color: var(--accent);
-  transform: scale(1.2);
-  text-shadow: 0 0 10px var(--accent);
-}
-
-/* Petit effet de soulèvement des lignes, sans déplacer le tableau */
-@media (hover: hover) {
-  table tbody tr:hover td:first-child {
-    box-shadow: inset 3px 0 0 var(--accent);
-  }
-}
-
-/* Respecte le réglage système qui réduit les animations */
-@media (prefers-reduced-motion: reduce) {
-  table th,
-  table td,
-  table td.case a {
-    transition: none;
-  }
-
-  table td.case a:hover,
-  table td.case a:focus-visible {
-    transform: none;
-  }
-}
-
-/* =====================================
-   GALERIE DES PROJETS JV
-   ===================================== */
-
-/* Organisation des cartes en grille */
-
-.galerie-projets {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-  gap: 1.5rem;
-  align-items: stretch;
-}
-
-/* Apparence des cartes */
-
-.galerie-projets .carte {
-  min-width: 0;
-  overflow: hidden;
-  background: var(--surface, #151a2e);
-  border: 1px solid var(--trait, #343956);
-  border-radius: 14px;
-  transition:
-    transform 0.3s ease,
-    border-color 0.3s ease,
-    box-shadow 0.3s ease;
-}
-
-/* La carte se soulève au survol */
-
-.galerie-projets .carte:hover {
-  transform: translateY(-6px);
-  border-color: var(--accent, #65f3d1);
-  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.22);
-}
-
-/* Zone de l'image */
-
-.image-projet {
-  width: 100%;
-  aspect-ratio: 16 / 9;
-  overflow: hidden;
-  background: var(--surface-2, #202542);
-}
-
-/* Image adaptée à la carte */
-
-.image-projet img {
-  display: block;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  transition: transform 0.45s ease;
-}
-
-/* Zoom léger de l'image au survol */
-
-.galerie-projets .carte:hover .image-projet img {
-  transform: scale(1.06);
-}
-
-/* Espacement du texte */
-
-.galerie-projets .carte h3,
-.galerie-projets .carte > p {
-  margin-left: 1rem;
-  margin-right: 1rem;
-}
-
-.galerie-projets .carte h3 {
-  margin-top: 1rem;
-}
-
-.galerie-projets .carte > p:last-child {
-  margin-bottom: 1rem;
-}
-
-/* Apparition progressive au défilement */
-
-.galerie-projets .apparition {
-  opacity: 0;
-  transform: translateY(25px);
-  transition:
-    opacity 0.65s ease,
-    transform 0.65s ease,
-    border-color 0.3s ease,
-    box-shadow 0.3s ease;
-}
-
-/* État visible */
-
-.galerie-projets .apparition.visible {
-  opacity: 1;
-  transform: translateY(0);
-}
-
-/* Accessibilité : réduire les animations si demandé */
-
-@media (prefers-reduced-motion: reduce) {
-  .galerie-projets .carte,
-  .galerie-projets .image-projet img,
-  .galerie-projets .apparition {
-    transition: none;
-  }
-
-  .galerie-projets .apparition {
-    opacity: 1;
-    transform: none;
-  }
-}
-
-
