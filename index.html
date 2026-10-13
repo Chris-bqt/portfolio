@@ -1,24 +1,43 @@
+
 ---
 layout: default
 ---
+
 <link rel="stylesheet" href="{{ '/css/style.css' | relative_url }}">
 
+<!-- ========================= -->
+<!-- TITRE ET PRÉSENTATION -->
+<!-- ========================= -->
+
 <h1>{{ site.title }}</h1>
+
 <p class="sous-titre">{{ site.description }}</p>
 
 <h2>Profil</h2>
-<p>Je suis en BTS SIO spécialité SISR et je suis à la recherche d'une alternance en informatique. Mon but est de faire un master ingiéneurie de l'informatique. Pour le moment je suis en capacité de créer un site et j'ai quelques conaissances en parc réseau. </p>
 
+<p>
+  Je suis en BTS SIO spécialité SISR et je suis à la recherche d'une
+  alternance en informatique. Mon but est de faire un master en
+  ingénierie de l'informatique. Pour le moment, je suis en capacité
+  de créer un site et j'ai quelques connaissances en parc réseau.
+</p>
+
+
+<!-- ========================= -->
+<!-- LISTE DES PROJETS -->
+<!-- ========================= -->
 
 {% assign projets = site.projets | sort: "date" | reverse %}
 
 <h2 id="projets">Projets JV ({{ projets.size }})</h2>
 
 <div class="galerie-projets">
+
   {% for p in projets %}
+
   <article class="carte apparition">
 
-   
+    <!-- Image affichée dans le menu principal -->
     {% if p.image_menu %}
       <div class="image-projet">
         <img
@@ -29,65 +48,128 @@ layout: default
       </div>
     {% endif %}
 
+    <!-- Titre du projet : le lien reste inchangé -->
+    <h3>
+      <a href="{{ p.url | relative_url }}">{{ p.title }}</a>
+    </h3>
 
+    <!-- Résumé du projet -->
     <p>{{ p.resume }}</p>
 
+    <!-- Date et cadre du projet -->
     <p class="meta">
       {{ p.date | date: "%m/%Y" }} · {{ p.cadre }}
     </p>
 
   </article>
+
   {% endfor %}
+
 </div>
 
+
+<!-- ========================= -->
+<!-- TABLEAU DES COMPÉTENCES -->
+<!-- ========================= -->
 
 <h2 id="competences">Compétences du bloc 1</h2>
-<p>Chaque croix renvoie au projet qui la prouve. Le tableau se remplit tout seul à chaque projet ajouté.</p>
+
+<p>
+  Chaque croix renvoie au projet qui la prouve.
+  Le tableau se remplit automatiquement à chaque projet ajouté.
+</p>
+
 <div class="defile" tabindex="0">
-<table>
-  <thead>
-    <tr><th scope="col">Compétence</th>{% for p in projets %}<th scope="col"><a href="{{ p.url | relative_url }}">P{{ forloop.rindex }}</a></th>{% endfor %}</tr>
-  </thead>
-  <tbody>
-  {% for c in site.data.competences %}
-    <tr><th scope="row">{{ c.libelle }}</th>{% for p in projets %}<td class="case">{% if p.competences contains c.code %}<a href="{{ p.url | relative_url }}" aria-label="{{ c.libelle }} : {{ p.title }}">X</a>{% endif %}</td>{% endfor %}</tr>
-  {% endfor %}
-  </tbody>
-</table>
+
+  <table>
+
+    <thead>
+      <tr>
+        <th scope="col">Compétence</th>
+
+        {% for p in projets %}
+          <th scope="col">
+            <a href="{{ p.url | relative_url }}">P{{ forloop.rindex }}</a>
+          </th>
+        {% endfor %}
+
+      </tr>
+    </thead>
+
+    <tbody>
+
+      {% for c in site.data.competences %}
+
+        <tr>
+
+          <th scope="row">{{ c.libelle }}</th>
+
+          {% for p in projets %}
+
+            <td class="case">
+
+              {% if p.competences contains c.code %}
+                <a
+                  href="{{ p.url | relative_url }}"
+                  aria-label="{{ c.libelle }} : {{ p.title }}"
+                >X</a>
+              {% endif %}
+
+            </td>
+
+          {% endfor %}
+
+        </tr>
+
+      {% endfor %}
+
+    </tbody>
+
+  </table>
+
 </div>
+
+
+<!-- ========================= -->
+<!-- ANIMATION DES CARTES -->
+<!-- Apparition lors du défilement -->
+<!-- ========================= -->
 
 <script>
 document.addEventListener("DOMContentLoaded", () => {
+
   const cartes = document.querySelectorAll(
     ".galerie-projets .apparition"
   );
 
-  /* Afficher les cartes si le navigateur ne gère pas l'observation */
+  // Si le navigateur ne prend pas en charge l'observateur,
+  // toutes les cartes restent visibles.
   if (!("IntersectionObserver" in window)) {
-    cartes.forEach(carte => {
-      carte.classList.add("visible");
-    });
+    cartes.forEach(carte => carte.classList.add("visible"));
     return;
   }
 
-  /* Détecter l'arrivée des cartes à l'écran */
+  // Détecte les cartes qui entrent dans la zone visible.
   const observateur = new IntersectionObserver(
     (entrees, observer) => {
+
       entrees.forEach(entree => {
+
         if (entree.isIntersecting) {
           entree.target.classList.add("visible");
           observer.unobserve(entree.target);
         }
+
       });
+
     },
     {
       threshold: 0.15
     }
   );
 
-  /* Surveiller chaque carte */
-  cartes.forEach(carte => {
-    observateur.observe(carte);
-  });
+  // Observe chaque carte de projet.
+  cartes.forEach(carte => observateur.observe(carte));
+
 });
 </script>
