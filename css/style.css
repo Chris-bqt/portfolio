@@ -422,8 +422,7 @@ article.carte:nth-of-type(4n + 4) { --c: var(--c4); }
    les animations dans leur système */
 @media (prefers-reduced-motion: no-preference) {
   .carte {
-    transition: opacity .5s ease,
-                transform .22s ease,
+    transition: transform .22s ease,
                 box-shadow .22s ease,
                 background-color .22s ease,
                 border-color .22s ease;
@@ -454,8 +453,9 @@ article.carte:nth-of-type(4n + 4) { --c: var(--c4); }
    ---------------------------------------------------------
    .galerie-projets = la grille qui range les cartes
    .image-projet    = l'image en haut d'une carte
-   .apparition      = la carte glisse et apparaît quand on
-                      fait défiler la page (le petit script de
+   .apparition      = les cartes arrivent une par une, en
+                      glissant, à l'ouverture du site et quand
+                      on fait défiler la page (le petit script de
                       index.html ajoute la classe .visible)
    ========================================================= */
 
@@ -493,10 +493,43 @@ article.carte:nth-of-type(4n + 4) { --c: var(--c4); }
    si les animations ne sont pas désactivées. Sinon, les cartes sont
    simplement visibles tout de suite. */
 @media (scripting: enabled) and (prefers-reduced-motion: no-preference) {
+
+  /* Avant son tour, la carte est invisible */
   .apparition:not(.visible) {
     opacity: 0;
-    transform: translateY(1.5rem);
   }
+
+  /* Quand le script lui donne la classe .visible, elle monte
+     et apparaît. --delai est fixé par le script : chaque carte
+     attend un peu plus que la précédente (effet « petit à petit »). */
+  .apparition.visible {
+    animation: apparition-carte .9s cubic-bezier(.34, 1.45, .64, 1) backwards;
+    animation-delay: var(--delai, 0s);
+  }
+}
+
+/* L'animation : la carte arrive de plus bas, légèrement penchée et
+   floue, puis se redresse avec un petit rebond (le « 1.45 » ci-dessus
+   règle la force du rebond). */
+@keyframes apparition-carte {
+  from {
+    opacity: 0;
+    transform: translateY(3rem) scale(.88) rotate(var(--penche, -2.5deg));
+    filter: blur(6px);
+  }
+  60% {
+    filter: blur(0);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+    filter: blur(0);
+  }
+}
+
+/* Les cartes de la colonne de droite arrivent penchées de l'autre côté */
+.galerie-projets .apparition:nth-child(even) {
+  --penche: 2.5deg;
 }
 
 /* L'image zoome doucement quand on survole la carte */
