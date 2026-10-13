@@ -18,9 +18,9 @@
     <p class="site"><a href="{{ '/' | relative_url }}">{{ site.title }}</a></p>
     <nav aria-label="Navigation principale">
       <ul>
-        <li><a href="{{ '/' | relative_url }}" aria-current="page">Accueil</a></li>
-        <li><a href="{{ '/#projets' | relative_url }}">Projets</a></li>
-        <li><a href="{{ '/#competences' | relative_url }}">Compétences</a></li>
+        <li><a href="#top" data-section="accueil">Accueil</a></li>
+        <li><a href="#projets" data-section="projets">Projets</a></li>
+        <li><a href="#competences" data-section="competences">Compétences</a></li>
       </ul>
     </nav>
   </header>
@@ -51,7 +51,7 @@
 
     {% assign projets = site.projets | sort: "date" | reverse %}
 
-    <h2 id="projets">Projets ({{ projets.size }})</h2>
+    <h2 id="projets">Projets JV ({{ projets.size }})</h2>
 
     <div class="galerie-projets">
 
@@ -209,6 +209,66 @@
     cartes.forEach(carte => observateur.observe(carte));
 
   });
+  </script>
+
+
+  <!-- ========================= -->
+  <!-- MENU QUI SUIT LA RUBRIQUE EN COURS -->
+  <!-- Met à jour la rubrique active et la barre du menu -->
+  <!-- pendant que tu fais défiler la page. -->
+  <!-- ========================= -->
+
+  <script>
+  (function () {
+
+    const menu = document.querySelector("nav");
+    const liens = Array.from(menu.querySelectorAll("a[data-section]"));
+
+    // Active l'affichage de la barre qui descend (voir le CSS)
+    menu.classList.add("suivi");
+
+    // Pour chaque rubrique : le titre à repérer dans la page.
+    // Accueil n'a pas de titre : c'est le haut de la page.
+    const reperes = liens.map(lien => ({
+      id: lien.dataset.section,
+      titre: document.getElementById(lien.dataset.section)
+    }));
+
+    function mettreAJour() {
+
+      // La rubrique active est la dernière dont le titre a dépassé
+      // cette ligne (35 % de la hauteur de la fenêtre).
+      const ligne = window.innerHeight * 0.35;
+      let actif = 0;
+
+      reperes.forEach((repere, i) => {
+        if (repere.titre && repere.titre.getBoundingClientRect().top <= ligne) {
+          actif = i;
+        }
+      });
+
+      // Tout en bas de la page : on passe à la dernière rubrique
+      const enBas = window.innerHeight + window.scrollY >=
+                    document.documentElement.scrollHeight - 4;
+      if (enBas) actif = reperes.length - 1;
+
+      liens.forEach((lien, i) => {
+        if (i === actif) {
+          lien.setAttribute("aria-current", "location");
+        } else {
+          lien.removeAttribute("aria-current");
+        }
+      });
+
+      // Position de la barre : 0, 1 ou 2 rubriques plus bas
+      menu.style.setProperty("--rang", actif);
+    }
+
+    window.addEventListener("scroll", mettreAJour, { passive: true });
+    window.addEventListener("resize", mettreAJour);
+    mettreAJour();
+
+  })();
   </script>
 
 </body>
